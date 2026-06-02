@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{{ site.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ site.tagline }}{% endblock %}" />
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }} feed" href="/atom.xml" />
+    <link rel="stylesheet" href="/static/style.css" />
+    {% if site.has_custom_css %}<link rel="stylesheet" href="/custom.css" />{% endif %}
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="title">
+          <h1>
+            <a href="/">{{ site.panda_face }} {{ site.title }}</a>
+          </h1>
+        </div>
+        <nav>
+          {% for item in site.nav %}
+          <a href="{{ item.href }}">{{ item.label }}</a>{% if not loop.last %} {% endif %}
+          {% endfor %}
+        </nav>
+      </header>
+
+      <main>
+        {% block main %}{% endblock %}
+      </main>
+
+      <footer>
+        {% if site.footer_subscribe %}
+        <p>
+          Subscribe via
+          <a href="/atom.xml">rss</a>{% if site.email %},
+          <a href="mailto:{{ site.email }}">email</a>{% endif %}
+          or just
+          <a href="{% if site.email %}mailto:{{ site.email }}{% else %}#{% endif %}">say hello</a>.
+        </p>
+        {% endif %}
+        {% if site.powered_by %}
+        <p>
+          Powered by
+          <a href="{{ site.koji_url }}">Koji {{ site.panda_small }}</a>
+        </p>
+        {% endif %}
+      </footer>
+    </div>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

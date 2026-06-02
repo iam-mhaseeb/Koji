@@ -1,0 +1,5 @@
+{% for post in posts %}
+<li><a href="/blog/{{ post.slug }}">{{ post.title }}</a></li>
+{% else %}
+<li>No posts yet.</li>
+{% endfor %}

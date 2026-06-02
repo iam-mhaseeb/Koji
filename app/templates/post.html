@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} — {{ site.title }}{% endblock %}
+{% block description %}{{ post.description }}{% endblock %}
+{% block main %}
+<h1>{{ post.title }}</h1>
+{% if post.date.year > 1970 %}
+<p class="post-meta">{{ post.date.strftime("%B %d, %Y") }}</p>
+{% endif %}
+<article>
+  {{ post.html | safe }}
+</article>
+<p><a href="/blog">← Back to blog</a></p>
+{% endblock %}

@@ -1,0 +1,32 @@
+title: "Alex's blog"
+author: Alex Developer
+tagline: Portfolio and essays about building software.
+email: hello@example.com
+location: San Francisco
+url: http://localhost:8000
+
+panda_face: "( ◕ ᴥ ◕ )"
+panda_small: "( •ᴥ• )"
+
+recent_posts_count: 5
+
+popular_slugs:
+  - koji-manifesto
+  - no-database-blogs
+  - product-is-my-garden
+  - frustration-loop
+  - staying-motivated-solo
+
+nav:
+  - label: Home
+    href: /
+  - label: Now
+    href: /now
+  - label: Projects
+    href: /projects
+  - label: Blog
+    href: /blog
+
+footer_subscribe: true
+powered_by: true
+koji_url: https://github.com/heykoji/koji
