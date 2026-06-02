@@ -4,40 +4,48 @@
 
 ## Features
 
-- **FastAPI** backend with server-rendered HTML
-- **Markdown** pages and posts with YAML frontmatter
-- **HTMX** live search on the blog index (progressive enhancement)
-- **Atom feed** at `/atom.xml`
-- **No database** — content lives in `content/`
-- **Docker**-ready single-container deploy
+- **FastAPI** — server-rendered HTML, minimal JavaScript
+- **Markdown + YAML** — pages and posts in `content/`
+- **HTMX** — live blog search (progressive enhancement)
+- **SEO** — meta tags, Open Graph, JSON-LD, sitemap, robots
+- **llms.txt** — AI-friendly markdown exports ([spec](https://llmstxt.org/))
+- **Docker** — single-container deploy
 
 ## Quick start
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
 Open [http://localhost:8000](http://localhost:8000).
 
-### Tests
-
 ```bash
-pip install -r requirements-dev.txt
-pytest
+docker compose up --build   # or Docker
+pytest                      # after pip install -r requirements-dev.txt
 ```
 
-### Docker
+## Documentation
 
-```bash
-docker compose up --build
-```
+Full guides for using and extending Koji:
 
-## Customize your site
+| Guide | Description |
+|-------|-------------|
+| [**Documentation index**](docs/README.md) | Start here |
+| [Getting started](docs/getting-started.md) | Install, first post, workflow |
+| [Configuration](docs/configuration.md) | Every `site.yaml` option |
+| [Content guide](docs/content.md) | Pages, posts, frontmatter |
+| [Theming](docs/theming.md) | CSS and templates |
+| [Deployment](docs/deployment.md) | Docker, production, HTTPS |
+| [SEO](docs/seo.md) | Search and social previews |
+| [llms.txt](docs/llms-txt.md) | AI assistant exports |
+| [Extending Koji](docs/extending.md) | New pages, routes, forks |
+| [Architecture](docs/architecture.md) | Code structure for developers |
 
-Edit `content/site.yaml` for title, nav, email, and popular posts:
+## Customize in 60 seconds
+
+Edit `content/site.yaml`:
 
 ```yaml
 title: "Your Name's blog"
@@ -46,104 +54,18 @@ email: you@example.com
 url: https://yourdomain.com
 ```
 
-| Path | Purpose |
-|------|---------|
-| `content/pages/home.md` | Homepage intro |
-| `content/pages/now.md` | `/now` page |
-| `content/pages/projects.md` | `/projects` page |
-| `content/posts/*.md` | Blog posts |
-
-### Post frontmatter
+Add a post at `content/posts/hello.md`:
 
 ```yaml
 ---
-title: My post title
-slug: my-post
-date: 2026-06-01
-description: Optional summary for feeds
-popular: true
-draft: false
+title: Hello
+slug: hello
+date: 2026-06-02
+description: My first post.
 ---
+
+Hello, world.
 ```
-
-Set `popular_slugs` in `site.yaml` to control the homepage “most popular” list, or mark posts with `popular: true`.
-
-## SEO
-
-Koji ships with built-in SEO:
-
-| Feature | URL / location |
-|---------|----------------|
-| Meta description, canonical, robots | Every page (auto) |
-| Open Graph + Twitter Cards | Every page (auto) |
-| JSON-LD (`WebSite`, `BlogPosting`, `WebPage`) | Every page (auto) |
-| Sitemap | `/sitemap.xml` |
-| Robots | `/robots.txt` |
-| Atom feed | `/atom.xml` |
-
-Configure in `content/site.yaml`:
-
-```yaml
-url: https://yourdomain.com          # required for canonical URLs
-tagline: Short site description      # homepage meta description
-og_image: https://yourdomain.com/og.png
-twitter_site: "@yourhandle"
-google_site_verification: "abc123"
-```
-
-Per-post frontmatter:
-
-```yaml
-description: Shown in search results and social previews
-image: /static/my-post.png           # og:image for this post
-noindex: true                        # hide from search engines
-modified: 2026-06-01                 # article:modified_time
-```
-
-Blog search (`/blog?q=`) is marked `noindex` to avoid duplicate-indexed URLs.
-
-## llms.txt (for AI assistants)
-
-Koji follows the [llms.txt](https://llmstxt.org/) convention:
-
-| URL | Purpose |
-|-----|---------|
-| `/llms.txt` | Curated site map with links to markdown sources |
-| `/llms-full.txt` | All pages and posts in one markdown file |
-| `/index.md`, `/now.md`, `/projects.md` | Page markdown exports |
-| `/blog/{slug}.md` | Post markdown exports |
-
-Override auto-generation by adding `content/llms.txt` or `content/llms-full.txt`.
-
-Configure in `content/site.yaml`:
-
-```yaml
-llms:
-  summary: One-line summary for the blockquote
-  details: |
-    Extra guidance for LLMs (optional paragraphs).
-  optional:
-    - name: External docs
-      url: https://example.com/docs
-      note: API reference
-```
-
-## Environment
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `KOJI_CONTENT_DIR` | `./content` | Path to markdown content |
-
-## Pages
-
-| URL | Description |
-|-----|-------------|
-| `/` | Home + recent & popular posts |
-| `/now` | Now page |
-| `/projects` | Projects page |
-| `/blog` | All posts (+ HTMX search) |
-| `/blog/{slug}` | Single post |
-| `/atom.xml` | Atom feed |
 
 ## License
 
