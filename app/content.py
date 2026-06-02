@@ -26,6 +26,7 @@ class Post:
     noindex: bool = False
     canonical: str = ""
     modified: datetime | None = None
+    raw_markdown: str = ""
 
     @property
     def iso_date(self) -> str:
@@ -159,6 +160,7 @@ class ContentStore:
             noindex=bool(meta.get("noindex", False)),
             canonical=str(meta.get("canonical") or ""),
             modified=_parse_date(modified_raw) if modified_raw else None,
+            raw_markdown=doc.content,
         )
 
     def _load_pages(self) -> dict[str, Page]:

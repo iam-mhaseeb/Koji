@@ -102,6 +102,32 @@ modified: 2026-06-01                 # article:modified_time
 
 Blog search (`/blog?q=`) is marked `noindex` to avoid duplicate-indexed URLs.
 
+## llms.txt (for AI assistants)
+
+Koji follows the [llms.txt](https://llmstxt.org/) convention:
+
+| URL | Purpose |
+|-----|---------|
+| `/llms.txt` | Curated site map with links to markdown sources |
+| `/llms-full.txt` | All pages and posts in one markdown file |
+| `/index.md`, `/now.md`, `/projects.md` | Page markdown exports |
+| `/blog/{slug}.md` | Post markdown exports |
+
+Override auto-generation by adding `content/llms.txt` or `content/llms-full.txt`.
+
+Configure in `content/site.yaml`:
+
+```yaml
+llms:
+  summary: One-line summary for the blockquote
+  details: |
+    Extra guidance for LLMs (optional paragraphs).
+  optional:
+    - name: External docs
+      url: https://example.com/docs
+      note: API reference
+```
+
 ## Environment
 
 | Variable | Default | Description |

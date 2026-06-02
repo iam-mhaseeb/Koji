@@ -18,6 +18,20 @@ class NavItem:
 
 
 @dataclass
+class LlmsLink:
+    name: str
+    url: str
+    note: str = ""
+
+
+@dataclass
+class LlmsConfig:
+    summary: str = ""
+    details: str = ""
+    optional_links: list[LlmsLink] = field(default_factory=list)
+
+
+@dataclass
 class SiteConfig:
     title: str
     author: str
@@ -43,6 +57,7 @@ class SiteConfig:
     google_site_verification: str = ""
     bing_site_verification: str = ""
     theme_color: str = "#ffffff"
+    llms: LlmsConfig = field(default_factory=LlmsConfig)
 
     @property
     def blog_title(self) -> str:
@@ -94,6 +109,25 @@ def load_site_config(root: Path | None = None) -> SiteConfig:
         google_site_verification=data.get("google_site_verification", ""),
         bing_site_verification=data.get("bing_site_verification", ""),
         theme_color=data.get("theme_color", "#ffffff"),
+        llms=_load_llms_config(data.get("llms") or {}),
+    )
+
+
+def _load_llms_config(data: dict[str, Any]) -> LlmsConfig:
+    optional_raw = data.get("optional") or data.get("optional_links") or []
+    optional_links = [
+        LlmsLink(
+            name=item["name"],
+            url=item["url"],
+            note=str(item.get("note") or ""),
+        )
+        for item in optional_raw
+        if item.get("name") and item.get("url")
+    ]
+    return LlmsConfig(
+        summary=str(data.get("summary") or ""),
+        details=str(data.get("details") or ""),
+        optional_links=optional_links,
     )
 
 

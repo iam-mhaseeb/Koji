@@ -13,6 +13,12 @@ from fastapi.templating import Jinja2Templates
 from app import __version__
 from app.config import SiteConfig, content_root, load_site_config
 from app.content import ContentStore, Post
+from app.llms import (
+    format_page_markdown,
+    format_post_markdown,
+    render_llms_full_txt,
+    render_llms_txt,
+)
 from app.seo import (
     render_robots_txt,
     render_sitemap_xml,
@@ -21,6 +27,8 @@ from app.seo import (
     seo_for_page,
     seo_for_post,
 )
+
+MARKDOWN_MEDIA = "text/markdown; charset=utf-8"
 
 APP_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(APP_DIR / "templates"))
@@ -121,6 +129,54 @@ async def blog_posts_partial(request: Request, q: str = Query(default="")):
     )
     response.headers["X-Robots-Tag"] = "noindex"
     return response
+
+
+@app.get("/llms.txt", response_class=Response)
+async def llms_txt():
+    return Response(
+        content=render_llms_txt(get_store()),
+        media_type=MARKDOWN_MEDIA,
+    )
+
+
+@app.get("/llms-full.txt", response_class=Response)
+async def llms_full_txt():
+    return Response(
+        content=render_llms_full_txt(get_store()),
+        media_type=MARKDOWN_MEDIA,
+    )
+
+
+@app.get("/index.md", response_class=Response)
+async def home_markdown():
+    page = get_store().page("home")
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found")
+    return Response(content=format_page_markdown(page), media_type=MARKDOWN_MEDIA)
+
+
+@app.get("/now.md", response_class=Response)
+async def now_markdown():
+    page = get_store().page("now")
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found")
+    return Response(content=format_page_markdown(page), media_type=MARKDOWN_MEDIA)
+
+
+@app.get("/projects.md", response_class=Response)
+async def projects_markdown():
+    page = get_store().page("projects")
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found")
+    return Response(content=format_page_markdown(page), media_type=MARKDOWN_MEDIA)
+
+
+@app.get("/blog/{slug}.md", response_class=Response)
+async def blog_post_markdown(slug: str):
+    post = get_store().post_by_slug(slug)
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return Response(content=format_post_markdown(post), media_type=MARKDOWN_MEDIA)
 
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)

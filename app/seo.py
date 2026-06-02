@@ -217,6 +217,8 @@ Disallow: /blog/partials/
 Disallow: /health
 
 Sitemap: {site.url}/sitemap.xml
+
+# LLM-friendly site map: {site.url}/llms.txt
 """
 
 

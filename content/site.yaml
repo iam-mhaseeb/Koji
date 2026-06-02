@@ -15,6 +15,16 @@ theme_color: "#ffffff"
 # google_site_verification: ""
 # bing_site_verification: ""
 
+# llms.txt — curated map for AI assistants (https://llmstxt.org)
+llms:
+  summary: Portfolio and essays by Alex Developer, built with Koji.
+  details: |
+    Prefer `.md` URLs for clean markdown. Use `/llms-full.txt` for a single-file export.
+  optional:
+    - name: Koji on GitHub
+      url: https://github.com/heykoji/koji
+      note: Self-hostable portfolio and blog engine
+
 panda_face: "( ◕ ᴥ ◕ )"
 panda_small: "( •ᴥ• )"
 
