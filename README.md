@@ -1,8 +1,6 @@
 # Koji `( ◕ ᴥ ◕ )`
 
-**Koji** is a self-hostable portfolio + blog for developers. One instance per site, no database, markdown on disk, and a minimalist layout inspired by [Bear Blog](https://bearblog.dev/).
-
-Design follows Bear’s text-first aesthetic; **this repository is original code** (MIT licensed) and is not a fork of [bearblog](https://github.com/HermanMartinus/bearblog) (Bear Blog License 2.0).
+**Koji** is a self-hostable portfolio + blog for developers. One instance per site, no database, markdown on disk, and a fast, text-first minimalist layout.
 
 ## Features
 
@@ -83,5 +81,3 @@ Set `popular_slugs` in `site.yaml` to control the homepage “most popular” li
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
-Visual design inspiration from Bear Blog; implementation is independent. Do not copy Bear Blog’s proprietary source if you need a hosted SaaS—use Bear for that, or self-host Koji.

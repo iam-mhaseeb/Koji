@@ -18,7 +18,7 @@ templates = Jinja2Templates(directory=str(APP_DIR / "templates"))
 
 app = FastAPI(
     title="Koji",
-    description="Self-hostable portfolio + blog inspired by Bear Blog",
+    description="Self-hostable portfolio + blog for developers",
     version=__version__,
 )
 

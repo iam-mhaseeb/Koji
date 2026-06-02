@@ -2,7 +2,7 @@
 title: The Koji Manifesto
 slug: koji-manifesto
 date: 2025-11-02
-description: Why we built a Bear-inspired blog you can self-host.
+description: Why we built a minimal blog you can self-host.
 popular: true
 ---
 

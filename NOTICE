@@ -1,6 +1,0 @@
-Koji visual design is inspired by Bear Blog (https://bearblog.dev/).
-
-This project does not include source code from HermanMartinus/bearblog.
-Bear Blog is distributed under the Bear Blog License 2.0, which restricts
-hosted-service use of Bear's software. Koji is an independent MIT-licensed
-implementation intended for self-hosting one blog per deployment.
