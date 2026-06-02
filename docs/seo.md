@@ -48,7 +48,7 @@ In `content/pages/*.md`:
 ---
 title: Now
 description: What I'm focused on in 2026 — projects, learning, and goals.
-image: https://yourdomain.com/static/now-og.png
+image: https://yourdomain.com/static/projects-og.png
 noindex: false
 ---
 ```
@@ -87,7 +87,7 @@ noindex: false
 | Page | Schema type |
 |------|-------------|
 | Home | `WebSite` |
-| Now, Projects | `WebPage` |
+| Projects | `WebPage` |
 | Blog index | `Blog` |
 | Blog post | `BlogPosting` |
 

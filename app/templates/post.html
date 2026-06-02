@@ -6,8 +6,7 @@
   <p class="post-meta">
     <time datetime="{{ post.iso_date }}" itemprop="datePublished">{{ post.date.strftime("%B %d, %Y") }}</time>
     {% if post.modified and post.modified.date() != post.date.date() %}
-    <span aria-hidden="true"> · </span>
-    <time datetime="{{ post.iso_modified }}" itemprop="dateModified">Updated {{ post.modified.strftime("%B %d, %Y") }}</time>
+    · <time datetime="{{ post.iso_modified }}" itemprop="dateModified">Updated {{ post.modified.strftime("%B %d, %Y") }}</time>
     {% endif %}
   </p>
   {% endif %}
@@ -15,5 +14,5 @@
     {{ post.html | safe }}
   </div>
 </article>
-<p class="post-back"><a href="/blog">← All posts</a></p>
+<p class="post-back"><a href="/blog">← Back to blog</a></p>
 {% endblock %}

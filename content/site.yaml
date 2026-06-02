@@ -4,6 +4,12 @@ tagline: Portfolio and essays about building software.
 email: hello@example.com
 location: San Francisco
 url: http://localhost:8000
+
+social:
+  - label: GitHub
+    url: https://github.com/example
+  - label: Email
+    url: mailto:hello@example.com
 locale: en
 
 # SEO — set url to your production domain before launch
@@ -29,8 +35,14 @@ panda_face: "( ◕ ᴥ ◕ )"
 panda_small: "( •ᴥ• )"
 
 recent_posts_count: 5
-recent_posts_heading: "Latest writing"
-popular_posts_heading: "Reader favorites"
+
+recent_projects:
+  - title: Koji
+    meta: "2024 – Present · Self-hostable portfolio + blog"
+    url: /projects
+  - title: Devlog CLI
+    meta: "Side project · Terminal publishing"
+    url: /projects
 
 popular_slugs:
   - koji-manifesto
@@ -42,8 +54,6 @@ popular_slugs:
 nav:
   - label: Home
     href: /
-  - label: Now
-    href: /now
   - label: Projects
     href: /projects
   - label: Blog

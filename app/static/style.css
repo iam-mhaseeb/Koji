@@ -1,25 +1,11 @@
-/*
- * Koji theme — text-first, developer blog aesthetic.
- * Inspired by minimalist blogs; distinct layout, type, and color system.
- */
+/* Koji — minimal blog + torbet.co-inspired portfolio rhythm */
 
 :root {
-  --koji-bg: #f6f5f2;
-  --koji-surface: #fffcf7;
-  --koji-text: #1c1917;
-  --koji-muted: #57534e;
-  --koji-accent: #166534;
-  --koji-accent-hover: #14532d;
-  --koji-border: #e7e5e4;
-  --koji-code-bg: #eceae4;
-  --koji-focus: #22c55e;
-  --koji-max: 42rem;
-  --koji-font: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
-    "Times New Roman", serif;
-  --koji-sans: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto,
-    Helvetica, Arial, sans-serif;
-  --koji-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Monaco,
-    Consolas, monospace;
+  --text: #111;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --link: #1d4ed8;
+  --max: 48rem;
 }
 
 *,
@@ -34,139 +20,199 @@ html {
 
 body {
   margin: 0;
-  padding: 2.5rem 1.5rem 4rem;
-  font-family: var(--koji-font);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--koji-text);
-  background: var(--koji-bg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: #fff;
 }
 
 a {
-  color: var(--koji-accent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+  color: var(--link);
+  text-decoration: none;
 }
 
 a:hover {
-  color: var(--koji-accent-hover);
+  text-decoration: underline;
 }
 
 .container {
-  max-width: var(--koji-max);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: var(--max);
   margin: 0 auto;
-  padding: 0 0.25rem;
+  padding: 1.5rem 1.25rem 3rem;
 }
 
-/* —— Header —— */
+/* —— Header: brand left, nav center, social right —— */
 .site-header {
-  margin-bottom: 2.75rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--koji-border);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
 }
 
-.site-logo {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin-bottom: 0.85rem;
-  color: var(--koji-text);
-  text-decoration: none;
-  font-family: var(--koji-sans);
+.site-nav {
+  justify-self: center;
 }
 
-.site-logo:hover {
-  color: var(--koji-accent);
+.site-brand {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
   text-decoration: none;
 }
 
-.site-mascot {
-  font-size: 1.15rem;
-  line-height: 1;
-  opacity: 0.9;
+.site-brand:hover {
+  text-decoration: none;
+  color: var(--link);
 }
 
-.site-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+.site-brand .mascot {
+  margin-right: 0.25rem;
+}
+
+.site-header-end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  justify-self: end;
+  gap: 1rem 1.25rem;
 }
 
 .site-nav {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0;
-  font-family: var(--koji-sans);
+  justify-content: center;
+  gap: 1rem;
   font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
 }
 
 .site-nav a {
-  color: var(--koji-muted);
+  color: var(--text);
   text-decoration: none;
 }
 
 .site-nav a:hover {
-  color: var(--koji-accent);
+  text-decoration: underline;
 }
 
-.nav-sep {
-  color: var(--koji-border);
-  user-select: none;
-  padding: 0 0.35rem;
-  font-weight: 400;
+.site-social {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.875rem;
 }
 
-/* —— Main content —— */
+.site-social a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-social a:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.site-location {
+  font-size: 0.875rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* —— Main (koji prose + torbet sections) —— */
 main {
-  background: var(--koji-surface);
-  padding: 1.75rem 1.5rem 2rem;
-  border: 1px solid var(--koji-border);
-  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 main h1 {
-  margin: 0 0 0.5rem;
-  font-family: var(--koji-sans);
-  font-size: 1.875rem;
+  margin: 0;
+  font-size: 1.75rem;
   font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
-main h2 {
-  margin: 0 0 0.85rem;
-  font-family: var(--koji-sans);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--koji-muted);
-  line-height: 1.4;
+.section-heading,
+main h2.section-heading {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-main h3,
-main h4 {
-  font-family: var(--koji-sans);
+.page-heading {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+main h2:not(.section-heading) {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+main hr,
+hr.section-rule,
+hr.page-divider {
+  width: 100%;
+  height: 0;
+  margin: 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+main h3 {
+  margin: 0;
+  font-size: 1.125rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+/* Subtitle line after h3: *2024 – Present · role* */
+main h3 + p > em:only-child,
+main h3 + p em:first-child {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-style: normal;
+}
+
+main h3 + p:has(em:only-child) {
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.entry-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.entry-block + hr,
+main h3:not(:first-of-type) {
+  margin-top: 0;
 }
 
 main p {
-  margin: 0 0 1.1rem;
+  margin: 0 0 1rem;
+}
+
+main p:last-child {
+  margin-bottom: 0;
 }
 
 main ul,
 main ol {
-  margin: 0 0 1.1rem;
+  margin: 0 0 1rem;
   padding-left: 1.35rem;
 }
 
 main li {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
 }
 
 main li p {
@@ -180,63 +226,52 @@ main strong {
 main img {
   max-width: 100%;
   height: auto;
-  border-radius: 2px;
 }
 
 main blockquote {
-  margin: 1.25rem 0;
-  padding: 0.5rem 0 0.5rem 1.1rem;
-  border-left: 3px solid var(--koji-accent);
-  color: var(--koji-muted);
-  font-style: italic;
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
 }
 
 main pre,
 .highlight {
   overflow-x: auto;
-  margin: 1rem 0;
-  padding: 1rem 1.1rem;
-  font-family: var(--koji-mono);
-  font-size: 0.85rem;
-  line-height: 1.5;
-  background: var(--koji-code-bg);
+  margin: 0.75rem 0;
+  padding: 0.85rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  background: #f9fafb;
+  border: 1px solid var(--border);
   border-radius: 4px;
-  border: 1px solid var(--koji-border);
 }
 
 main code {
-  font-family: var(--koji-mono);
-  font-size: 0.88em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
 }
 
 main p code,
 main li code {
-  background: var(--koji-code-bg);
-  padding: 0.12em 0.35em;
+  background: #f3f4f6;
+  padding: 0.12em 0.3em;
   border-radius: 3px;
-}
-
-/* —— Post lists (home + blog) —— */
-.post-section {
-  margin-top: 2.25rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--koji-border);
-}
-
-.post-section:first-of-type {
-  margin-top: 1.5rem;
 }
 
 .blog-posts {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .blog-posts li {
   margin: 0;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid var(--koji-border);
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .blog-posts li:last-child {
@@ -244,77 +279,85 @@ main li code {
 }
 
 .blog-posts a {
-  font-family: var(--koji-sans);
   font-weight: 500;
-  text-decoration: none;
+  color: var(--link);
 }
 
-.blog-posts a:hover {
-  text-decoration: underline;
+.project-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-/* —— Post page —— */
-.post-lead {
-  margin-bottom: 1.5rem;
+.project-list li {
+  margin: 0;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.project-list li:last-child {
+  border-bottom: none;
+}
+
+.project-list a {
+  font-weight: 500;
+  color: var(--link);
+}
+
+.project-meta {
+  font-size: 0.875rem;
+  color: var(--muted);
 }
 
 .post-meta {
-  font-family: var(--koji-sans);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--koji-muted);
-  margin: 0 0 1.75rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
 }
 
 .post-back {
-  display: inline-block;
-  margin-top: 2rem;
-  font-family: var(--koji-sans);
-  font-size: 0.9rem;
+  margin: 0;
+  font-size: 0.9375rem;
 }
 
-/* —— Blog search —— */
 .search-box {
-  margin: 0 0 1.5rem;
+  margin: 0;
 }
 
 .search-box input {
   width: 100%;
-  padding: 0.55rem 0.75rem;
-  font: 0.9375rem var(--koji-sans);
-  color: var(--koji-text);
-  border: 1px solid var(--koji-border);
+  padding: 0.5rem 0.65rem;
+  font: inherit;
+  border: 1px solid var(--border);
   border-radius: 4px;
-  background: var(--koji-bg);
+  background: #fff;
 }
 
 .search-box input:focus {
-  outline: 2px solid var(--koji-focus);
+  outline: 2px solid var(--link);
   outline-offset: 1px;
-  border-color: var(--koji-accent);
 }
 
-/* —— Footer —— */
+/* —— Footer (koji) —— */
 .site-footer {
-  margin-top: 2.5rem;
-  padding-top: 1.25rem;
-  font-family: var(--koji-sans);
-  font-size: 0.8125rem;
-  line-height: 1.6;
-  color: var(--koji-muted);
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
 }
 
 .site-footer p {
   margin: 0 0 0.4rem;
 }
 
-.site-footer a {
-  font-weight: 500;
-}
-
-/* —— A11y —— */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -327,30 +370,22 @@ main li code {
   border: 0;
 }
 
-@media (max-width: 520px) {
-  body {
-    padding: 1.5rem 1rem 3rem;
+@media (max-width: 640px) {
+  .container {
+    padding: 1.25rem 1rem 2.5rem;
   }
 
-  main {
-    padding: 1.25rem 1rem 1.5rem;
+  .site-header {
+    grid-template-columns: 1fr;
+    justify-items: start;
   }
 
-  main h1 {
-    font-size: 1.5rem;
+  .site-nav {
+    justify-self: start;
   }
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --koji-bg: #141210;
-    --koji-surface: #1c1917;
-    --koji-text: #fafaf9;
-    --koji-muted: #a8a29e;
-    --koji-accent: #4ade80;
-    --koji-accent-hover: #86efac;
-    --koji-border: #292524;
-    --koji-code-bg: #292524;
-    --koji-focus: #22c55e;
+  .site-header-end {
+    justify-self: start;
+    justify-content: flex-start;
   }
 }

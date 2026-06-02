@@ -226,7 +226,6 @@ def render_sitemap_xml(store: ContentStore) -> str:
     site = store.site
     urls: list[tuple[str, datetime | None, str]] = [
         (site.url + "/", None, "daily"),
-        (absolute_url(site, "/now"), None, "monthly"),
         (absolute_url(site, "/projects"), None, "monthly"),
         (absolute_url(site, "/blog"), None, "weekly"),
     ]

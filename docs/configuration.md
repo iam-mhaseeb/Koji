@@ -27,8 +27,6 @@ popular_slugs:
 nav:
   - label: Home
     href: /
-  - label: Now
-    href: /now
   - label: Projects
     href: /projects
   - label: Blog
@@ -70,7 +68,7 @@ llms:
 | `author` | Yes | `Developer` | Author name in feeds and schema.org |
 | `tagline` | No | `""` | Short description; used for SEO and llms.txt |
 | `email` | No | `""` | Mailto links in footer |
-| `location` | No | `""` | Informational (not shown unless you mention it in markdown) |
+| `location` | No | `""` | Shown in the header (top right, muted) |
 | `url` | No | `http://localhost:8000` | **Canonical base URL** — must be production HTTPS URL when live |
 | `locale` | No | `en` | HTML `lang` attribute and `og:locale` |
 
@@ -85,16 +83,16 @@ llms:
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `recent_posts_count` | `5` | How many posts appear under the recent-posts section on the home page |
-| `recent_posts_heading` | `Latest writing` | Heading for the recent-posts section |
-| `popular_posts_heading` | `Reader favorites` | Heading for the popular-posts section |
-| `popular_slugs` | `[]` | Ordered list of post slugs for the popular section. If empty, uses posts with `popular: true` in frontmatter (max 5) |
+| `recent_posts_count` | `5` | How many posts appear under “My most recent posts” |
+| `recent_projects` | `[]` | List of `{ title, url, meta? }` for “My recent projects” on the homepage |
+| `popular_slugs` | `[]` | Ordered list of post slugs for “My most popular posts”. If empty, uses posts with `popular: true` in frontmatter (max 5) |
+| `social` | `[]` | Header links: `{ label, url }` (e.g. GitHub, Email) — shown on the right |
 
 ### Navigation
 
 | Key | Description |
 |-----|-------------|
-| `nav` | List of `{ label, href }` items. Default: Home, Now, Projects, Blog |
+| `nav` | List of `{ label, href }` items. Default: Home, Projects, Blog |
 
 You can add external links:
 

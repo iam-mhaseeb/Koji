@@ -1,6 +1,6 @@
 # Theming
 
-Koji ships with a **minimal, text-first** default theme in `app/static/style.css` — warm paper tones, serif body text, green accents, and a card-style main column. Customize freely via **`content/custom.css`**.
+Koji ships with a **minimal, text-first** default theme in `app/static/style.css`. You customize appearance without touching Python by adding **`content/custom.css`**.
 
 ## Quick customization
 
@@ -48,7 +48,7 @@ Templates use Jinja2 inheritance:
 ```
 base.html          # <html>, <head>, header, nav, footer
 ├── home.html      # Homepage body + post lists
-├── page.html      # Static pages (now, projects)
+├── page.html      # Static pages (projects, etc.)
 ├── blog.html      # Blog index + HTMX search
 └── post.html      # Single post <article>
 ```

@@ -12,7 +12,6 @@ content/
 ├── llms-full.txt           # optional override
 ├── pages/
 │   ├── home.md
-│   ├── now.md
 │   └── projects.md
 └── posts/
     ├── 2026-06-01-my-post.md
@@ -28,7 +27,6 @@ Pages live in `content/pages/`. Each file maps to a fixed route:
 | File | Route |
 |------|-------|
 | `home.md` | `/` (body only; lists are automatic) |
-| `now.md` | `/now` |
 | `projects.md` | `/projects` |
 
 ### Page frontmatter
@@ -49,8 +47,8 @@ The markdown **body** is rendered below the page title (except `home.md`, which 
 
 `home.md` powers the intro on `/`. Koji **automatically appends**:
 
-- Recent posts section — heading from `recent_posts_heading` (default: “Latest writing”), count from `recent_posts_count`
-- Popular posts section — heading from `popular_posts_heading` (default: “Reader favorites”), slugs from `popular_slugs` or `popular: true` posts
+- “My most recent posts” — from `recent_posts_count` in `site.yaml`
+- “My most popular posts” — from `popular_slugs` or `popular: true` posts
 
 You don't write those lists in markdown; they're generated.
 
@@ -138,7 +136,6 @@ Every page and post has a **clean markdown URL**:
 | HTML | Markdown |
 |------|----------|
 | `/` | `/index.md` |
-| `/now` | `/now.md` |
 | `/projects` | `/projects.md` |
 | `/blog/{slug}` | `/blog/{slug}.md` |
 

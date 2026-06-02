@@ -58,9 +58,9 @@ def test_htmx_partial_noindex_header():
 
 
 def test_page_meta_description():
-    r = client.get("/now")
+    r = client.get("/projects")
     assert r.status_code == 200
-    assert "focused on right now" in r.text
+    assert "Open source tools" in r.text
 
 
 def test_sitemap_link_in_head():

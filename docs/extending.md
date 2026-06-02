@@ -37,7 +37,7 @@ In `app/main.py`, add the path to the existing static page handler:
 
 ```python
 @app.get("/about", response_class=HTMLResponse)
-@app.get("/now", response_class=HTMLResponse)
+@app.get("/about", response_class=HTMLResponse)
 @app.get("/projects", response_class=HTMLResponse)
 async def static_page(request: Request):
     slug = request.url.path.strip("/")
@@ -64,7 +64,7 @@ For full SEO, extend `seo_for_page` usage (already automatic once route exists).
 For llms.txt, update `app/llms.py` `render_llms_txt()` to include `about` in the pages loop:
 
 ```python
-for slug, label in (("home", "Home"), ("now", "Now"), ("projects", "Projects"), ("about", "About")):
+for slug, label in (("home", "Home"), ("projects", "Projects"), ("about", "About")):
 ```
 
 Also add `.md` export:
@@ -79,7 +79,7 @@ And include `about` in `render_llms_full_txt()` page loop.
 
 ### 5. Sitemap
 
-Add the URL in `app/seo.py` → `render_sitemap_xml()` if you want it in the sitemap (copy the pattern for `/now`).
+Add the URL in `app/seo.py` → `render_sitemap_xml()` if you want it in the sitemap (copy the pattern for `/projects`).
 
 ## Adding a custom route
 
