@@ -176,19 +176,39 @@ main h3 + p em:first-child {
 }
 
 main h3 + p:has(em:only-child) {
-  margin-top: 0.25rem;
-  margin-bottom: 0.75rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.35rem;
 }
 
-.entry-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+/* Static pages (e.g. projects): tight project blocks separated by hr */
+.page-content h3 {
+  margin: 0.85rem 0 0;
 }
 
-.entry-block + hr,
-main h3:not(:first-of-type) {
+.page-content > h3:first-child {
   margin-top: 0;
+}
+
+.page-content hr + h2,
+.page-content hr + h3 {
+  margin-top: 0;
+}
+
+.page-content h3 + p + p {
+  margin: 0;
+}
+
+.page-content h2 {
+  margin: 1rem 0 0.5rem;
+}
+
+.page-content hr {
+  margin: 0.85rem 0;
+}
+
+.page-content ul,
+.page-content ol {
+  margin: 0 0 0.5rem;
 }
 
 main p {
