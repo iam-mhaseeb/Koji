@@ -22,6 +22,13 @@ uvicorn app.main:app --reload
 
 Open [http://localhost:8000](http://localhost:8000).
 
+### Tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
 ### Docker
 
 ```bash
