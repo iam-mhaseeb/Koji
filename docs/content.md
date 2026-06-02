@@ -49,8 +49,8 @@ The markdown **body** is rendered below the page title (except `home.md`, which 
 
 `home.md` powers the intro on `/`. Koji **automatically appends**:
 
-- “My most recent posts” — from `recent_posts_count` in `site.yaml`
-- “My most popular posts” — from `popular_slugs` or `popular: true` posts
+- Recent posts section — heading from `recent_posts_heading` (default: “Latest writing”), count from `recent_posts_count`
+- Popular posts section — heading from `popular_posts_heading` (default: “Reader favorites”), slugs from `popular_slugs` or `popular: true` posts
 
 You don't write those lists in markdown; they're generated.
 

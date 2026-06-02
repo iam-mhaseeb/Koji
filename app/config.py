@@ -43,6 +43,8 @@ class SiteConfig:
     panda_small: str = PANDA_SMALL
     nav: list[NavItem] = field(default_factory=list)
     recent_posts_count: int = 5
+    recent_posts_heading: str = "Latest writing"
+    popular_posts_heading: str = "Reader favorites"
     popular_slugs: list[str] = field(default_factory=list)
     footer_subscribe: bool = True
     powered_by: bool = True
@@ -56,7 +58,7 @@ class SiteConfig:
     robots: str = "index, follow"
     google_site_verification: str = ""
     bing_site_verification: str = ""
-    theme_color: str = "#ffffff"
+    theme_color: str = "#f6f5f2"
     llms: LlmsConfig = field(default_factory=LlmsConfig)
 
     @property
@@ -95,6 +97,8 @@ def load_site_config(root: Path | None = None) -> SiteConfig:
         panda_small=data.get("panda_small", PANDA_SMALL),
         nav=nav,
         recent_posts_count=int(data.get("recent_posts_count", 5)),
+        recent_posts_heading=str(data.get("recent_posts_heading", "Latest writing")),
+        popular_posts_heading=str(data.get("popular_posts_heading", "Reader favorites")),
         popular_slugs=list(data.get("popular_slugs") or []),
         footer_subscribe=bool(data.get("footer_subscribe", True)),
         powered_by=bool(data.get("powered_by", True)),

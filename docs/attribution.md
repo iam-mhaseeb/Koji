@@ -7,7 +7,7 @@ Koji is MIT-licensed and free to self-host. If it helps you, we’d love a small
 In `content/site.yaml`:
 
 ```yaml
-powered_by: true   # default — shows “Powered by Koji ( •ᴥ• )”
+powered_by: true   # default — shows “Built with Koji ( •ᴥ• )”
 koji_url: https://github.com/heykoji/koji
 ```
 

@@ -18,15 +18,14 @@
   </head>
   <body>
     <div class="container">
-      <header>
-        <div class="title">
-          <h1>
-            <a href="/">{{ site.panda_face }} {{ site.title }}</a>
-          </h1>
-        </div>
-        <nav aria-label="Main">
+      <header class="site-header">
+        <a class="site-logo" href="/">
+          <span class="site-mascot" aria-hidden="true">{{ site.panda_face }}</span>
+          <span class="site-title">{{ site.title }}</span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
           {% for item in site.nav %}
-          <a href="{{ item.href }}">{{ item.label }}</a>{% if not loop.last %} {% endif %}
+          <a href="{{ item.href }}">{{ item.label }}</a>{% if not loop.last %}<span class="nav-sep" aria-hidden="true">/</span>{% endif %}
           {% endfor %}
         </nav>
       </header>
@@ -35,20 +34,20 @@
         {% block main %}{% endblock %}
       </main>
 
-      <footer>
+      <footer class="site-footer">
         {% if site.footer_subscribe %}
         <p>
           Subscribe via
-          <a href="/atom.xml">rss</a>{% if site.email %},
+          <a href="/atom.xml">RSS</a>{% if site.email %},
           <a href="mailto:{{ site.email }}">email</a>{% endif %}
-          or just
+          or
           <a href="{% if site.email %}mailto:{{ site.email }}{% else %}#{% endif %}">say hello</a>.
         </p>
         {% endif %}
         {% if site.powered_by %}
         <p>
-          Powered by
-          <a href="{{ site.koji_url }}">Koji {{ site.panda_small }}</a>
+          Built with
+          <a href="{{ site.koji_url }}">Koji</a> {{ site.panda_small }}
         </p>
         {% endif %}
       </footer>

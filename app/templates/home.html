@@ -1,24 +1,30 @@
 {% extends "base.html" %}
 {% block main %}
+<div class="post-lead">
 {% if page %}
 {{ page.html | safe }}
 {% endif %}
+</div>
 
 {% if recent %}
-<h2>My most recent posts</h2>
-<ul class="blog-posts">
-  {% for post in recent %}
-  <li><a href="/blog/{{ post.slug }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
+<section class="post-section" aria-labelledby="recent-posts-heading">
+  <h2 id="recent-posts-heading">{{ site.recent_posts_heading }}</h2>
+  <ul class="blog-posts">
+    {% for post in recent %}
+    <li><a href="/blog/{{ post.slug }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+</section>
 {% endif %}
 
 {% if popular %}
-<h2>My most popular posts</h2>
-<ul class="blog-posts">
-  {% for post in popular %}
-  <li><a href="/blog/{{ post.slug }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
+<section class="post-section" aria-labelledby="popular-posts-heading">
+  <h2 id="popular-posts-heading">{{ site.popular_posts_heading }}</h2>
+  <ul class="blog-posts">
+    {% for post in popular %}
+    <li><a href="/blog/{{ post.slug }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+</section>
 {% endif %}
 {% endblock %}

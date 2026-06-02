@@ -1,6 +1,6 @@
 # Theming
 
-Koji ships with a **minimal, text-first** default theme in `app/static/style.css`. You customize appearance without touching Python by adding **`content/custom.css`**.
+Koji ships with a **minimal, text-first** default theme in `app/static/style.css` — warm paper tones, serif body text, green accents, and a card-style main column. It is **not** a pixel copy of other minimalist blogs; customize freely via **`content/custom.css`**.
 
 ## Quick customization
 

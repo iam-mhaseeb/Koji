@@ -29,6 +29,8 @@ panda_face: "( ◕ ᴥ ◕ )"
 panda_small: "( •ᴥ• )"
 
 recent_posts_count: 5
+recent_posts_heading: "Latest writing"
+popular_posts_heading: "Reader favorites"
 
 popular_slugs:
   - koji-manifesto

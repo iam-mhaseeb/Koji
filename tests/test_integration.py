@@ -21,8 +21,8 @@ def test_home_page():
     html = r.text
     assert "Alex's blog" in html or "Alex&#39;s blog" in html
     assert "( ◕ ᴥ ◕ )" in html
-    assert "My most recent posts" in html
-    assert "My most popular posts" in html
+    assert "Latest writing" in html
+    assert "Reader favorites" in html
     assert "/blog/koji-manifesto" in html
 
 
@@ -68,7 +68,7 @@ def test_blog_post():
     assert r.status_code == 200
     assert "The Koji Manifesto" in r.text
     assert "markdown on disk" in r.text
-    assert "Back to blog" in r.text
+    assert "All posts" in r.text
 
 
 def test_blog_post_404():
@@ -113,10 +113,10 @@ def test_footer_subscribe():
     r = client.get("/")
     assert "/atom.xml" in r.text
     assert "mailto:hello@example.com" in r.text
-    assert "Powered by" in r.text
+    assert "Built with" in r.text
     assert "Koji" in r.text
 
 
 def test_powered_by_defaults_on():
     r = client.get("/")
-    assert "Powered by" in r.text
+    assert "Built with" in r.text

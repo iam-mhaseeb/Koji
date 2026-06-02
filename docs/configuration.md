@@ -85,8 +85,10 @@ llms:
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `recent_posts_count` | `5` | How many posts appear under “My most recent posts” |
-| `popular_slugs` | `[]` | Ordered list of post slugs for “My most popular posts”. If empty, uses posts with `popular: true` in frontmatter (max 5) |
+| `recent_posts_count` | `5` | How many posts appear under the recent-posts section on the home page |
+| `recent_posts_heading` | `Latest writing` | Heading for the recent-posts section |
+| `popular_posts_heading` | `Reader favorites` | Heading for the popular-posts section |
+| `popular_slugs` | `[]` | Ordered list of post slugs for the popular section. If empty, uses posts with `popular: true` in frontmatter (max 5) |
 
 ### Navigation
 
@@ -109,7 +111,7 @@ nav:
 | Key | Default | Description |
 |-----|---------|-------------|
 | `footer_subscribe` | `true` | Show “Subscribe via rss, email…” line |
-| `powered_by` | `true` | Show “Powered by Koji” line (please leave on if you can) |
+| `powered_by` | `true` | Show “Built with Koji” line (please leave on if you can) |
 | `koji_url` | GitHub URL | Link target for “Koji” in footer |
 
 See [Powered by Koji](attribution.md) — we appreciate leaving `powered_by: true`, but it’s optional.
