@@ -14,7 +14,6 @@
     <link rel="alternate" type="text/markdown" title="LLM site map" href="/llms.txt" />
     <link rel="stylesheet" href="/static/style.css" />
     {% if site.has_custom_css %}<link rel="stylesheet" href="/custom.css" />{% endif %}
-    <link rel="stylesheet" href="/static/koji-attribution.css" />
     {% block head %}{% endblock %}
   </head>
   <body>
@@ -46,10 +45,12 @@
           <a href="{% if site.email %}mailto:{{ site.email }}{% else %}#{% endif %}">say hello</a>.
         </p>
         {% endif %}
-        <p class="koji-attribution">
+        {% if site.powered_by %}
+        <p>
           Powered by
           <a href="{{ site.koji_url }}">Koji {{ site.panda_small }}</a>
         </p>
+        {% endif %}
       </footer>
     </div>
     {% block scripts %}{% endblock %}

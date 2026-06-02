@@ -122,19 +122,21 @@ image: https://yourdomain.com/static/post-image.png
 
 Recommended size: **1200×630** px for Open Graph.
 
-## Footer attribution
+## Footer
 
-The **“Powered by Koji”** line cannot be turned off via `site.yaml`. It uses the class `koji-attribution`, and `koji-attribution.css` loads after `custom.css` so simple hide rules do not apply.
-
-Do not add CSS that hides `footer` or `.koji-attribution` — Koji logs an error on startup. See [Attribution](attribution.md).
-
-The subscribe line is separate:
+Hide the subscribe line:
 
 ```yaml
 footer_subscribe: false
 ```
 
-You cannot hide the Powered-by line via config; see [Attribution](attribution.md) for fork/hosted options.
+Hide “Powered by Koji” (allowed, but we appreciate it if you keep it on):
+
+```yaml
+powered_by: false
+```
+
+See [Powered by Koji](attribution.md).
 
 ## Advanced: replace default CSS entirely
 

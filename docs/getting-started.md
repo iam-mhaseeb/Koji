@@ -44,6 +44,7 @@ author: Your Name
 tagline: What you do in one sentence.
 email: you@example.com
 url: http://localhost:8000   # change to https://yourdomain.com before launch
+powered_by: true               # please leave on if you can — see docs/attribution.md
 ```
 
 ### Edit the homepage

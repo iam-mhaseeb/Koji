@@ -48,4 +48,5 @@ nav:
     href: /blog
 
 footer_subscribe: true
+powered_by: true   # please leave on if you can — https://github.com/heykoji/koji
 koji_url: https://github.com/heykoji/koji

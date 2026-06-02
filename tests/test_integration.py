@@ -115,3 +115,8 @@ def test_footer_subscribe():
     assert "mailto:hello@example.com" in r.text
     assert "Powered by" in r.text
     assert "Koji" in r.text
+
+
+def test_powered_by_defaults_on():
+    r = client.get("/")
+    assert "Powered by" in r.text

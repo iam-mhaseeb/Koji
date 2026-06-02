@@ -45,6 +45,7 @@ class SiteConfig:
     recent_posts_count: int = 5
     popular_slugs: list[str] = field(default_factory=list)
     footer_subscribe: bool = True
+    powered_by: bool = True
     koji_url: str = "https://github.com/heykoji/koji"
     has_custom_css: bool = False
     locale: str = "en"
@@ -96,6 +97,7 @@ def load_site_config(root: Path | None = None) -> SiteConfig:
         recent_posts_count=int(data.get("recent_posts_count", 5)),
         popular_slugs=list(data.get("popular_slugs") or []),
         footer_subscribe=bool(data.get("footer_subscribe", True)),
+        powered_by=bool(data.get("powered_by", True)),
         koji_url=data.get("koji_url", "https://github.com/heykoji/koji"),
         has_custom_css=has_custom,
         locale=data.get("locale", "en"),

@@ -1,71 +1,44 @@
-# Footer attribution
+# Powered by Koji
 
-Koji always renders **“Powered by Koji”** in the site footer. This page explains what is enforced in software and what requires legal or hosted-product choices.
+Koji is MIT-licensed and free to self-host. If it helps you, we’d love a small credit in the footer — but it’s your choice.
 
-## What Koji enforces in code
+## The toggle
 
-| Measure | What it does |
-|---------|----------------|
-| **Always-on template** | Footer HTML is not gated by `site.yaml`; there is no `powered_by: false` option. |
-| **`koji-attribution.css`** | Loaded **after** `custom.css` so simple hide rules are overridden. |
-| **`custom.css` scan** | On startup, logs an **error** if CSS appears to hide `footer` or `.koji-attribution`. |
+In `content/site.yaml`:
 
-These stop casual removal via config or basic CSS. They do **not** stop a determined fork (see below).
+```yaml
+powered_by: true   # default — shows “Powered by Koji ( •ᴥ• )”
+koji_url: https://github.com/heykoji/koji
+```
 
-## What you cannot enforce (self-hosted + MIT)
+Set `powered_by: false` to hide that line. Everything else keeps working.
 
-Anyone who self-hosts can still:
+## Why we ask you to leave it on
 
-- Delete or edit `app/templates/base.html`
-- Remove `koji-attribution.css` from the template
-- Patch Python or run a fork without your updates
-- Use `footer { display: none !important; }` in CSS loaded after yours (e.g. browser extension — not your problem)
+- **Discovery** — other developers find Koji through your site  
+- **Sustainability** — credit makes it easier to justify maintaining the project  
+- **Small footprint** — one line in an already-minimal footer  
 
-**MIT license** requires keeping the copyright notice in **source** distributions, not in the live site UI. So legal attribution in code ≠ visible footer in production.
+If Koji saved you time or hosting cost, leaving it on is a kind (and free) way to say thanks.
 
-True “cannot remove” enforcement only works if:
+## What you can customize
 
-1. **You host the product** (SaaS) and control the deployed HTML, or  
-2. **You change the license** to require visible attribution (not MIT), or  
-3. **Dual license** — MIT for contributors, commercial/terms for deployers who want no footer.
+| Setting | Effect |
+|---------|--------|
+| `koji_url` | Where the footer link points (your fork, docs, or the main repo) |
+| `panda_small` | The little panda next to “Koji”, e.g. `( •ᴥ• )` |
 
-## Stronger options if you need real enforcement
+Please don’t use `custom.css` to hide the line while leaving `powered_by: true` — set the config flag instead so intent is clear.
 
-### Option A: Hosted Koji only
+## If you turn it off
 
-You run the instances; users never deploy the server themselves. You control templates and assets.
+That’s allowed. Consider:
 
-### Option B: Custom license / CLA
-
-Example clause (talk to a lawyer):
-
-> Redistributions that provide the Software as a public website must display a “Powered by Koji” link in the footer of every page, linking to [URL], unless you have a separate written agreement.
-
-MIT alone does not include this.
-
-### Option C: Apache 2.0 + NOTICE
-
-Requires preserving **NOTICE** file in distributions, not footer on the website. Helpful for source attribution, not UI.
-
-### Option D: Trademark
-
-Register “Koji” and restrict misleading use of the name/logo. Does not force a footer link by itself.
-
-## For fork maintainers
-
-If you are **allowed** to remove attribution (your own fork, commercial license, etc.):
-
-1. Edit `app/templates/base.html` — remove the `.koji-attribution` block.
-2. Remove the `<link>` to `koji-attribution.css`.
-3. Delete or disable `check_custom_css_file` in `app/main.py` lifespan if desired.
-
-## For site owners (default Koji)
-
-- Do not hide the footer in `content/custom.css` — startup will log an error.
-- Customize the link target with `koji_url` in `site.yaml` (e.g. your fork or docs).
-- Panda emoji in the link text come from `panda_small` in `site.yaml`.
+- Starring the repo on GitHub  
+- Mentioning Koji in a “built with” post or your repo README  
+- Contributing docs or code if you hit a bug  
 
 ## Related
 
-- [Configuration](configuration.md) — `koji_url`, footer subscribe line
-- [Theming](theming.md) — `custom.css` rules
+- [Configuration](configuration.md) — `powered_by`, `footer_subscribe`, `koji_url`
+- [Theming](theming.md) — footer and `custom.css`
