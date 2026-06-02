@@ -54,7 +54,11 @@ _md = markdown.Markdown(
     extensions=[
         "meta",
         FencedCodeExtension(),
-        CodeHiliteExtension(css_class="highlight", guess_lang=False),
+        CodeHiliteExtension(
+            css_class="highlight",
+            guess_lang=True,
+            pygments_style="friendly",
+        ),
         TableExtension(),
     ],
     output_format="html5",

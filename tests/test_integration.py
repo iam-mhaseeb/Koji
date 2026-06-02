@@ -71,6 +71,15 @@ def test_blog_post():
     assert "Back to blog" in r.text
 
 
+def test_blog_post_code_blocks():
+    r = client.get("/blog/sharing-code-in-posts")
+    assert r.status_code == 200
+    assert 'class="highlight"' in r.text
+    assert "<code>" in r.text
+    assert "HTTPException" in r.text
+    assert "fetchPost" in r.text
+
+
 def test_blog_post_404():
     r = client.get("/blog/does-not-exist")
     assert r.status_code == 404

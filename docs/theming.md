@@ -39,7 +39,7 @@ main h2 {
 | `footer` | Centered, subscribe + powered-by lines |
 | `.blog-posts` | Post links separated by horizontal rules |
 | `.project-list` | Homepage “recent projects” with title link + muted meta line |
-| `.highlight` | Light gray code block background |
+| `.highlight` | Fenced code blocks with Pygments syntax colors and horizontal scroll |
 
 Inspect `app/static/style.css` for all selectors.
 

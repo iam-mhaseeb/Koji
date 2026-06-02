@@ -249,28 +249,156 @@ main blockquote {
   color: var(--muted);
 }
 
-main pre,
-.highlight {
-  overflow-x: auto;
-  margin: 0.75rem 0;
-  padding: 0.85rem 1rem;
-  font-size: 0.875rem;
-  line-height: 1.45;
-  background: #f9fafb;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-}
-
+/* —— Code: inline + fenced blocks (Pygments / CodeHilite) —— */
 main code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
+  font-size: 0.875em;
 }
 
 main p code,
-main li code {
+main li code,
+main td code {
   background: #f3f4f6;
-  padding: 0.12em 0.3em;
-  border-radius: 3px;
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.85em;
+  word-break: break-word;
+}
+
+.highlight {
+  margin: 1.1rem 0;
+  background: #f6f8fa;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.highlight pre {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.highlight code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  border: none;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Pygments token colors (GitHub-inspired, class-based) */
+.highlight .c,
+.highlight .ch,
+.highlight .cm,
+.highlight .cpf {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.highlight .cp {
+  color: #6a737d;
+}
+
+.highlight .k,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt,
+.highlight .ow {
+  color: #d73a49;
+}
+
+.highlight .s,
+.highlight .s1,
+.highlight .s2,
+.highlight .sa,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx {
+  color: #032f62;
+}
+
+.highlight .m,
+.highlight .mb,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .mo,
+.highlight .il {
+  color: #005cc5;
+}
+
+.highlight .nf,
+.highlight .fm {
+  color: #6f42c1;
+}
+
+.highlight .nc {
+  color: #6f42c1;
+  font-weight: 600;
+}
+
+.highlight .na,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi,
+.highlight .vm {
+  color: #005cc5;
+}
+
+.highlight .nt {
+  color: #22863a;
+}
+
+.highlight .nn,
+.highlight .nx {
+  color: #6f42c1;
+}
+
+.highlight .no,
+.highlight .bp {
+  color: #005cc5;
+}
+
+.highlight .o {
+  color: #d73a49;
+}
+
+.highlight .w {
+  color: #bbb;
+}
+
+.highlight .err {
+  color: #b31d28;
+}
+
+.highlight .gd {
+  color: #b31d28;
+  background: #ffeef0;
+}
+
+.highlight .gi {
+  color: #22863a;
+  background: #f0fff4;
 }
 
 .blog-posts {

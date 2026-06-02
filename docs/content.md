@@ -117,12 +117,18 @@ Place assets in `app/static/` (bundled with the app) or host externally. For use
 
 ### Code blocks
 
+Always tag the language on the opening fence so Pygments can highlight correctly:
+
 ````markdown
 ```python
 def hello():
     return "world"
 ```
 ````
+
+Supported languages include `python`, `javascript`, `typescript`, `bash`, `json`, `yaml`, `rust`, `go`, and [many more](https://pygments.org/languages/) Pygments supports. Inline code uses single backticks: `` `npm install` ``.
+
+Rendered output uses the `.highlight` wrapper with horizontal scroll on narrow screens.
 
 ### Internal links
 
