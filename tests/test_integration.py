@@ -21,30 +21,30 @@ def test_home_page():
     html = r.text
     assert "Alex's blog" in html or "Alex&#39;s blog" in html
     assert "( ◕ ᴥ ◕ )" in html
-    assert "Latest writing" in html
-    assert "Reader favorites" in html
+    assert "My most recent posts" in html
+    assert "My most popular posts" in html
+    assert "My recent projects" in html
+    assert "Devlog CLI" in html
     assert "/blog/koji-manifesto" in html
 
 
-def test_now_page():
-    r = client.get("/now")
-    assert r.status_code == 200
-    assert "<h1>Now</h1>" in r.text
-    assert "Shipping Koji" in r.text
+def test_now_page_removed():
+    assert client.get("/now").status_code == 404
 
 
 def test_projects_page():
     r = client.get("/projects")
     assert r.status_code == 200
-    assert "<h1>Projects</h1>" in r.text
-    assert "Ongoing projects" in r.text
+    assert "Projects" in r.text
+    assert "page-heading" in r.text
+    assert "Smaller side-projects" in r.text
     assert "Koji" in r.text
 
 
 def test_blog_index():
     r = client.get("/blog")
     assert r.status_code == 200
-    assert "<h1>Blog</h1>" in r.text
+    assert "page-heading" in r.text and "Blog" in r.text
     assert "htmx.org" in r.text
     assert "/blog/koji-manifesto" in r.text
 
@@ -68,7 +68,7 @@ def test_blog_post():
     assert r.status_code == 200
     assert "The Koji Manifesto" in r.text
     assert "markdown on disk" in r.text
-    assert "All posts" in r.text
+    assert "Back to blog" in r.text
 
 
 def test_blog_post_404():
@@ -105,7 +105,7 @@ def test_custom_css_404_when_missing():
 
 def test_nav_links_present():
     r = client.get("/")
-    for path in ("/", "/now", "/projects", "/blog"):
+    for path in ("/", "/projects", "/blog"):
         assert f'href="{path}"' in r.text
 
 

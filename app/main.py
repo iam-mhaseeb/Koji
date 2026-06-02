@@ -84,12 +84,12 @@ async def home(request: Request):
             page=page,
             recent=store.recent_posts(),
             popular=store.popular_posts(),
+            recent_projects=site.recent_projects,
             seo=seo_for_home(site, page),
         ),
     )
 
 
-@app.get("/now", response_class=HTMLResponse)
 @app.get("/projects", response_class=HTMLResponse)
 async def static_page(request: Request):
     slug = request.url.path.strip("/")
@@ -150,14 +150,6 @@ async def llms_full_txt():
 @app.get("/index.md", response_class=Response)
 async def home_markdown():
     page = get_store().page("home")
-    if not page:
-        raise HTTPException(status_code=404, detail="Page not found")
-    return Response(content=format_page_markdown(page), media_type=MARKDOWN_MEDIA)
-
-
-@app.get("/now.md", response_class=Response)
-async def now_markdown():
-    page = get_store().page("now")
     if not page:
         raise HTTPException(status_code=404, detail="Page not found")
     return Response(content=format_page_markdown(page), media_type=MARKDOWN_MEDIA)

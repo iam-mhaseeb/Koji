@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block main %}
-<h1>{{ heading }}</h1>
+<h2 class="page-heading">{{ heading }}</h2>
+<hr class="page-divider" />
+<div class="page-content">
 {{ page.html | safe }}
+</div>
 {% endblock %}

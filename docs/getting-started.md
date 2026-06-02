@@ -91,8 +91,7 @@ Visit `/blog/hello-world`. It also appears under “My most recent posts” on t
 
 | File | URL | Purpose |
 |------|-----|---------|
-| `content/pages/home.md` | `/` | Intro + recent/popular post lists |
-| `content/pages/now.md` | `/now` | What you're doing now |
+| `content/pages/home.md` | `/` | Intro + recent projects and post lists |
 | `content/pages/projects.md` | `/projects` | Projects and work |
 
 You can rewrite these entirely. Keep the filenames unless you [extend routes](extending.md).

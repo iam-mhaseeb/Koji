@@ -19,15 +19,23 @@
   <body>
     <div class="container">
       <header class="site-header">
-        <a class="site-logo" href="/">
-          <span class="site-mascot" aria-hidden="true">{{ site.panda_face }}</span>
-          <span class="site-title">{{ site.title }}</span>
+        <a class="site-brand" href="/">
+          <span class="mascot" aria-hidden="true">{{ site.panda_face }}</span>{{ site.title }}
         </a>
         <nav class="site-nav" aria-label="Main">
           {% for item in site.nav %}
-          <a href="{{ item.href }}">{{ item.label }}</a>{% if not loop.last %}<span class="nav-sep" aria-hidden="true">/</span>{% endif %}
+          <a href="{{ item.href }}">{{ item.label }}</a>
           {% endfor %}
         </nav>
+        <div class="site-header-end">
+          {% if site.social_links %}
+          <div class="site-social" aria-label="Social links">
+            {% for link in site.social_links %}
+            <a href="{{ link.url }}"{% if link.url.startswith('http') %} rel="noopener noreferrer"{% endif %}>{{ link.label }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
       </header>
 
       <main id="main-content">
@@ -38,8 +46,7 @@
         {% if site.footer_subscribe %}
         <p>
           Subscribe via
-          <a href="/atom.xml">RSS</a>{% if site.email %},
-          <a href="mailto:{{ site.email }}">email</a>{% endif %}
+          <a href="/atom.xml">rss</a>
           or
           <a href="{% if site.email %}mailto:{{ site.email }}{% else %}#{% endif %}">say hello</a>.
         </p>
@@ -47,7 +54,7 @@
         {% if site.powered_by %}
         <p>
           Powered by
-          <a href="{{ site.koji_url }}">Koji</a> {{ site.panda_small }}
+          <a href="{{ site.koji_url }}">Koji {{ site.panda_small }}</a>
         </p>
         {% endif %}
       </footer>

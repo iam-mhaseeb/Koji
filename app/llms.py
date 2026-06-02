@@ -47,7 +47,7 @@ def render_llms_txt(store: ContentStore) -> str:
         lines.append("")
 
     lines.append("## Pages")
-    for slug, label in (("home", "Home"), ("now", "Now"), ("projects", "Projects")):
+    for slug, label in (("home", "Home"), ("projects", "Projects")):
         page = store.page(slug)
         if not page:
             continue
@@ -91,7 +91,7 @@ def render_llms_full_txt(store: ContentStore) -> str:
         "",
     ]
 
-    for slug in ("home", "now", "projects"):
+    for slug in ("home", "projects"):
         page = store.page(slug)
         if page:
             parts.extend(_format_section(page.title, page.raw_markdown))

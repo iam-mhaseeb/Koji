@@ -9,7 +9,7 @@ Koji implements the [llms.txt proposal](https://llmstxt.org/) so AI assistants a
 | `/llms.txt` | Curated index (spec format) |
 | `/llms-full.txt` | All pages and posts in one file |
 | `/index.md` | Home markdown |
-| `/{page}.md` | Page markdown (`/now.md`, `/projects.md`) |
+| `/{page}.md` | Page markdown (`/projects.md`, etc.) |
 | `/blog/{slug}.md` | Post markdown |
 
 ## Auto-generated `/llms.txt`
@@ -25,7 +25,7 @@ Unless you provide `content/llms.txt`, Koji builds:
 
 ## Pages
 - [Home](https://yourdomain.com/index.md): ...
-- [Now](https://yourdomain.com/now.md): ...
+- [Projects](https://yourdomain.com/projects.md): ...
 
 ## Blog
 - [Post title](https://yourdomain.com/blog/slug.md): description

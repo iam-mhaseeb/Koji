@@ -35,7 +35,6 @@ content/
 ├── llms-full.txt      # Optional full markdown export
 ├── pages/
 │   ├── home.md        # /
-│   ├── now.md         # /now
 │   └── projects.md    # /projects
 └── posts/
     └── my-post.md     # /blog/my-post
@@ -61,7 +60,7 @@ docker compose up --build
 | URL | Type |
 |-----|------|
 | `/` | Home |
-| `/now`, `/projects` | Static pages |
+| `/projects` | Static pages |
 | `/blog`, `/blog/{slug}` | Blog |
 | `/atom.xml`, `/rss.xml`, `/feed.xml` | Atom feed |
 | `/sitemap.xml` | Sitemap |

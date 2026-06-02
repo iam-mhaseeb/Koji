@@ -18,6 +18,19 @@ class NavItem:
 
 
 @dataclass
+class SocialLink:
+    label: str
+    url: str
+
+
+@dataclass
+class RecentProject:
+    title: str
+    url: str
+    meta: str = ""
+
+
+@dataclass
 class LlmsLink:
     name: str
     url: str
@@ -37,14 +50,13 @@ class SiteConfig:
     author: str
     tagline: str = ""
     email: str = ""
-    location: str = ""
+    social_links: list[SocialLink] = field(default_factory=list)
+    recent_projects: list[RecentProject] = field(default_factory=list)
     url: str = "http://localhost:8000"
     panda_face: str = PANDA_FACE
     panda_small: str = PANDA_SMALL
     nav: list[NavItem] = field(default_factory=list)
     recent_posts_count: int = 5
-    recent_posts_heading: str = "Latest writing"
-    popular_posts_heading: str = "Reader favorites"
     popular_slugs: list[str] = field(default_factory=list)
     footer_subscribe: bool = True
     powered_by: bool = True
@@ -58,7 +70,7 @@ class SiteConfig:
     robots: str = "index, follow"
     google_site_verification: str = ""
     bing_site_verification: str = ""
-    theme_color: str = "#f6f5f2"
+    theme_color: str = "#ffffff"
     llms: LlmsConfig = field(default_factory=LlmsConfig)
 
     @property
@@ -91,14 +103,13 @@ def load_site_config(root: Path | None = None) -> SiteConfig:
         author=data.get("author", "Developer"),
         tagline=data.get("tagline", ""),
         email=data.get("email", ""),
-        location=data.get("location", ""),
+        social_links=_load_social_links(data.get("social") or []),
+        recent_projects=_load_recent_projects(data.get("recent_projects") or []),
         url=data.get("url", "http://localhost:8000").rstrip("/"),
         panda_face=data.get("panda_face", PANDA_FACE),
         panda_small=data.get("panda_small", PANDA_SMALL),
         nav=nav,
         recent_posts_count=int(data.get("recent_posts_count", 5)),
-        recent_posts_heading=str(data.get("recent_posts_heading", "Latest writing")),
-        popular_posts_heading=str(data.get("popular_posts_heading", "Reader favorites")),
         popular_slugs=list(data.get("popular_slugs") or []),
         footer_subscribe=bool(data.get("footer_subscribe", True)),
         powered_by=bool(data.get("powered_by", True)),
@@ -115,6 +126,36 @@ def load_site_config(root: Path | None = None) -> SiteConfig:
         theme_color=data.get("theme_color", "#ffffff"),
         llms=_load_llms_config(data.get("llms") or {}),
     )
+
+
+def _load_recent_projects(raw: list) -> list[RecentProject]:
+    projects: list[RecentProject] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        title = item.get("title")
+        url = item.get("url") or item.get("href")
+        if title and url:
+            projects.append(
+                RecentProject(
+                    title=str(title),
+                    url=str(url),
+                    meta=str(item.get("meta") or ""),
+                )
+            )
+    return projects
+
+
+def _load_social_links(raw: list) -> list[SocialLink]:
+    links: list[SocialLink] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        label = item.get("label") or item.get("name")
+        url = item.get("url")
+        if label and url:
+            links.append(SocialLink(label=str(label), url=str(url)))
+    return links
 
 
 def _load_llms_config(data: dict[str, Any]) -> LlmsConfig:
@@ -138,7 +179,6 @@ def _load_llms_config(data: dict[str, Any]) -> LlmsConfig:
 def _default_nav() -> list[dict[str, str]]:
     return [
         {"label": "Home", "href": "/"},
-        {"label": "Now", "href": "/now"},
         {"label": "Projects", "href": "/projects"},
         {"label": "Blog", "href": "/blog"},
     ]
