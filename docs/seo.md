@@ -15,6 +15,10 @@ Koji generates search- and social-friendly metadata automatically. You configure
 | Sitemap | `/sitemap.xml` | Crawl discovery |
 | Robots file | `/robots.txt` | Crawler rules + sitemap pointer |
 | Atom feed | `/atom.xml` | Syndication (also `/rss.xml`, `/feed.xml`) |
+| llms.txt index | `/llms.txt` | AI/tool discovery ([llms.txt spec](https://llmstxt.org/)) |
+| Markdown exports | `/index.md`, `/projects.md`, `/blog/{slug}.md` | Clean markdown for tools and RAG (see [llms.txt guide](llms-txt.md)) |
+
+Every HTML page also includes `<link rel="alternate">` for the Atom feed, sitemap, and llms.txt index in `<head>`.
 
 ## Site-wide configuration
 
@@ -31,7 +35,17 @@ theme_color: "#ffffff"
 google_site_verification: "paste-from-search-console"
 bing_site_verification: "paste-from-bing"
 robots: index, follow
+
+# Homepage lists (not SEO tags, but affect what appears on /)
+recent_projects:
+  - title: My project
+    url: /projects
+social:
+  - label: GitHub
+    url: https://github.com/you
 ```
+
+See [Configuration](configuration.md) for all keys. Social links are navigation only; they are not added to structured data automatically.
 
 ### Why `url` matters
 
@@ -39,6 +53,15 @@ Every canonical link, sitemap entry, feed link, and Open Graph URL is built from
 
 - Development: `http://localhost:8000`
 - Production: `https://yourdomain.com` (HTTPS, no trailing slash)
+
+## Page titles
+
+| Page | `<title>` format |
+|------|------------------|
+| Home (`/`) | `site.title` only |
+| Projects, Blog index, posts | `{page title} — {site.title}` when the combined string fits (~60 characters); otherwise the page title alone |
+
+The visible **Projects** heading on `/projects` is an `<h2>` in the template; the browser tab and Open Graph title still come from frontmatter `title`.
 
 ## Per-page SEO
 
@@ -93,6 +116,12 @@ noindex: false
 
 Posts include `datePublished`, `dateModified` (when set), `author`, and `headline`.
 
+Blog posts use `og:type` **article** with `article:published_time`, `article:modified_time` (when set), and `article:author`.
+
+### Home page description
+
+Set `description` in `content/pages/home.md` frontmatter. It becomes the meta description and Open Graph text on `/`. If omitted, Koji falls back to `tagline`, then stripped body text from `home.md`.
+
 ## Indexing rules
 
 | URL pattern | Robots behavior |
@@ -100,7 +129,20 @@ Posts include `datePublished`, `dateModified` (when set), `author`, and `headlin
 | Normal pages & posts | `index, follow` (from `site.yaml`) |
 | `/blog?q=...` | `noindex, follow` (search duplicates) |
 | `/blog/partials/...` | `X-Robots-Tag: noindex` (HTMX fragments) |
-| `draft: true` posts | Excluded from sitemap; URL returns 404 |
+| `draft: true` posts | Excluded from sitemap, feeds, and llms exports; URL returns 404 |
+| `/index.md`, `/projects.md`, `/blog/{slug}.md` | Same indexing as HTML counterparts |
+| `/llms.txt`, `/llms-full.txt` | Allowed; linked from `robots.txt` comment |
+
+## Sitemap contents
+
+`/sitemap.xml` includes:
+
+- `/` (daily)
+- `/projects` (monthly)
+- `/blog` (weekly)
+- Each published post at `/blog/{slug}` with `lastmod` from `modified` or `date`
+
+Draft posts and removed pages (e.g. there is no `/now` route) are omitted.
 
 ## Launch checklist
 
@@ -110,8 +152,10 @@ Before announcing your site:
 - [ ] `tagline` and homepage `description` are set
 - [ ] `og_image` exists and loads in a browser
 - [ ] Every public post has `description`
-- [ ] `/robots.txt` shows correct `Sitemap:` line
-- [ ] `/sitemap.xml` lists all important URLs
+- [ ] `content/pages/home.md` and `projects.md` have `description` in frontmatter
+- [ ] `/robots.txt` shows correct `Sitemap:` line and mentions `/llms.txt`
+- [ ] `/sitemap.xml` lists `/`, `/projects`, `/blog`, and all published posts
+- [ ] `/llms.txt` lists your pages and posts (or your manual `content/llms.txt` is complete)
 - [ ] [Google Search Console](https://search.google.com/search-console): add property, verify via `google_site_verification`, submit sitemap
 - [ ] Test one URL with [Rich Results Test](https://search.google.com/test/rich-results)
 - [ ] Share a post link in Slack/iMessage — preview looks correct
@@ -120,9 +164,11 @@ Before announcing your site:
 ## Verifying locally
 
 ```bash
-curl -s http://localhost:8000/ | grep -E 'canonical|og:title|application/ld\+json'
+curl -s http://localhost:8000/ | grep -E 'canonical|og:title|application/ld\+json|llms.txt'
+curl -s http://localhost:8000/blog/sharing-code-in-posts | grep -E 'og:type|article:published'
 curl -s http://localhost:8000/sitemap.xml | head -30
 curl -s http://localhost:8000/robots.txt
+curl -s http://localhost:8000/llms.txt | head -20
 ```
 
 ## Common issues

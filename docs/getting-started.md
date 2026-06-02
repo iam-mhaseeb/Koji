@@ -66,6 +66,25 @@ A paragraph about what you do and where you are.
 
 The `description` in frontmatter feeds SEO meta tags on the home page.
 
+### Homepage lists and social links
+
+In `content/site.yaml` you can configure:
+
+```yaml
+recent_projects:
+  - title: My App
+    meta: "2024 – Present · Side project"
+    url: /projects
+
+social:
+  - label: GitHub
+    url: https://github.com/you
+  - label: LinkedIn
+    url: https://www.linkedin.com/in/you
+```
+
+See [Configuration](configuration.md) for `popular_slugs`, `recent_posts_count`, and navigation.
+
 ### Add a blog post
 
 Create `content/posts/hello-world.md`:
@@ -86,6 +105,8 @@ print("hello")
 ```
 
 Visit `/blog/hello-world`. It also appears under “My most recent posts” on the home page.
+
+For a full example with syntax-highlighted code blocks, see the sample post at `/blog/sharing-code-in-posts`.
 
 ## 4. Understand the default pages
 

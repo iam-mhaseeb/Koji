@@ -41,7 +41,9 @@ canonical: https://other.com/projects     # Optional: override canonical URL
 ---
 ```
 
-The markdown **body** is rendered below the page title (except `home.md`, which has no extra `<h1>` from the template — put your main heading in the markdown).
+The markdown **body** is rendered below the template page heading (`<h2>` on static pages). **SEO titles** and Open Graph still use frontmatter `title`, not the first markdown heading.
+
+`home.md` has no extra template heading — put your main `<h1>` in the markdown body.
 
 ### Home page special behavior
 
@@ -128,7 +130,9 @@ def hello():
 
 Supported languages include `python`, `javascript`, `typescript`, `bash`, `json`, `yaml`, `rust`, `go`, and [many more](https://pygments.org/languages/) Pygments supports. Inline code uses single backticks: `` `npm install` ``.
 
-Rendered output uses the `.highlight` wrapper with horizontal scroll on narrow screens.
+If you omit the language tag, Koji tries to guess it (`guess_lang`). Tagging the language is still recommended for accurate highlighting.
+
+Rendered output uses the `.highlight` wrapper with Pygments token colors and horizontal scroll on narrow screens. Example: `/blog/sharing-code-in-posts`.
 
 ### Internal links
 

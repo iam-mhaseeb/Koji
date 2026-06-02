@@ -77,8 +77,8 @@ llms:
 |-----|----------|---------|-------------|
 | `title` | Yes | `My blog` | Site name in header, titles, feeds |
 | `author` | Yes | `Developer` | Author name in feeds and schema.org |
-| `tagline` | No | `""` | Short description; used for SEO and llms.txt |
-| `email` | No | `""` | Mailto links in footer |
+| `tagline` | No | `""` | Short description; default SEO/llms fallback when a page has no `description` |
+| `email` | No | `""` | Mailto links in footer and `rel="me"` in `<head>` when set |
 | `url` | No | `http://localhost:8000` | **Canonical base URL** — must be production HTTPS URL when live |
 | `locale` | No | `en` | HTML `lang` attribute and `og:locale` |
 
@@ -96,7 +96,7 @@ llms:
 | `recent_posts_count` | `5` | How many posts appear under “My most recent posts” |
 | `recent_projects` | `[]` | List of `{ title, url, meta? }` for “My recent projects” on the homepage |
 | `popular_slugs` | `[]` | Ordered list of post slugs for “My most popular posts”. If empty, uses posts with `popular: true` in frontmatter (max 5) |
-| `social` | `[]` | Header links: `{ label, url }` (e.g. GitHub, Email) — shown on the right |
+| `social` | `[]` | Header links on the right: `{ label, url }` (e.g. GitHub, LinkedIn, Email). External URLs get `rel="noopener noreferrer"`. |
 
 ### Navigation
 

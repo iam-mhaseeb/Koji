@@ -66,3 +66,16 @@ def test_page_meta_description():
 def test_sitemap_link_in_head():
     r = client.get("/")
     assert 'href="/sitemap.xml"' in r.text
+
+
+def test_llms_and_feed_links_in_head():
+    r = client.get("/")
+    assert 'href="/llms.txt"' in r.text
+    assert 'href="/atom.xml"' in r.text
+    assert "text/markdown" in r.text
+
+
+def test_projects_page_json_ld():
+    r = client.get("/projects")
+    assert '"@type": "WebPage"' in r.text or '"@type":"WebPage"' in r.text
+    assert "Open source tools" in r.text
