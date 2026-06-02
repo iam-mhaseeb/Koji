@@ -34,6 +34,15 @@ class SiteConfig:
     powered_by: bool = True
     koji_url: str = "https://github.com/heykoji/koji"
     has_custom_css: bool = False
+    locale: str = "en"
+    og_image: str = ""
+    twitter_site: str = ""
+    twitter_creator: str = ""
+    author_url: str = ""
+    robots: str = "index, follow"
+    google_site_verification: str = ""
+    bing_site_verification: str = ""
+    theme_color: str = "#ffffff"
 
     @property
     def blog_title(self) -> str:
@@ -76,6 +85,15 @@ def load_site_config(root: Path | None = None) -> SiteConfig:
         powered_by=bool(data.get("powered_by", True)),
         koji_url=data.get("koji_url", "https://github.com/heykoji/koji"),
         has_custom_css=has_custom,
+        locale=data.get("locale", "en"),
+        og_image=data.get("og_image", ""),
+        twitter_site=data.get("twitter_site", ""),
+        twitter_creator=data.get("twitter_creator", ""),
+        author_url=data.get("author_url", ""),
+        robots=data.get("robots", "index, follow"),
+        google_site_verification=data.get("google_site_verification", ""),
+        bing_site_verification=data.get("bing_site_verification", ""),
+        theme_color=data.get("theme_color", "#ffffff"),
     )
 
 

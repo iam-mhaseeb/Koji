@@ -1,5 +1,6 @@
 ---
 title: Home
+description: Alex Developer writes about software, indie hacking, and building Koji.
 ---
 
 # Hi I'm Alex Developer.

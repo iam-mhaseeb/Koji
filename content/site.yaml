@@ -4,6 +4,16 @@ tagline: Portfolio and essays about building software.
 email: hello@example.com
 location: San Francisco
 url: http://localhost:8000
+locale: en
+
+# SEO — set url to your production domain before launch
+# og_image: https://yourdomain.com/static/og.png
+author_url: https://github.com/example
+twitter_site: "@example"
+twitter_creator: "@example"
+theme_color: "#ffffff"
+# google_site_verification: ""
+# bing_site_verification: ""
 
 panda_face: "( ◕ ᴥ ◕ )"
 panda_small: "( •ᴥ• )"

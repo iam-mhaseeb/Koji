@@ -1,5 +1,6 @@
 ---
 title: Projects
+description: Open source tools, side projects, and past work by Alex Developer.
 ---
 
 ## Ongoing projects

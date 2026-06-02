@@ -1,5 +1,6 @@
 ---
 title: Now
+description: What Alex is focused on right now — projects, learning, and life.
 ---
 
 This is what I'm focused on **right now** (inspired by [nownownow.com](https://nownownow.com)):

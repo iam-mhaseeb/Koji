@@ -13,6 +13,14 @@ from fastapi.templating import Jinja2Templates
 from app import __version__
 from app.config import SiteConfig, content_root, load_site_config
 from app.content import ContentStore, Post
+from app.seo import (
+    render_robots_txt,
+    render_sitemap_xml,
+    seo_for_blog_index,
+    seo_for_home,
+    seo_for_page,
+    seo_for_post,
+)
 
 APP_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(APP_DIR / "templates"))
@@ -60,10 +68,16 @@ def _ctx(**extra):
 async def home(request: Request):
     store = get_store()
     page = store.page("home")
+    site = get_site()
     return templates.TemplateResponse(
         request,
         "home.html",
-        _ctx(page=page, recent=store.recent_posts(), popular=store.popular_posts()),
+        _ctx(
+            page=page,
+            recent=store.recent_posts(),
+            popular=store.popular_posts(),
+            seo=seo_for_home(site, page),
+        ),
     )
 
 
@@ -75,10 +89,11 @@ async def static_page(request: Request):
     page = store.page(slug)
     if not page:
         raise HTTPException(status_code=404, detail="Page not found")
+    site = get_site()
     return templates.TemplateResponse(
         request,
         "page.html",
-        _ctx(page=page, heading=page.title),
+        _ctx(page=page, heading=page.title, seo=seo_for_page(site, page, f"/{slug}")),
     )
 
 
@@ -86,10 +101,11 @@ async def static_page(request: Request):
 async def blog_index(request: Request, q: str | None = None):
     store = get_store()
     posts = store.search_posts(q) if q else store.published_posts()
+    site = get_site()
     return templates.TemplateResponse(
         request,
         "blog.html",
-        _ctx(posts=posts, query=q or ""),
+        _ctx(posts=posts, query=q or "", seo=seo_for_blog_index(site, q or "")),
     )
 
 
@@ -98,11 +114,13 @@ async def blog_posts_partial(request: Request, q: str = Query(default="")):
     """HTMX partial: filtered post list."""
     store = get_store()
     posts = store.search_posts(q)
-    return templates.TemplateResponse(
+    response = templates.TemplateResponse(
         request,
         "partials/post_list.html",
         _ctx(posts=posts),
     )
+    response.headers["X-Robots-Tag"] = "noindex"
+    return response
 
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
@@ -111,10 +129,11 @@ async def blog_post(request: Request, slug: str):
     post = store.post_by_slug(slug)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
+    site = get_site()
     return templates.TemplateResponse(
         request,
         "post.html",
-        _ctx(post=post),
+        _ctx(post=post, seo=seo_for_post(site, post)),
     )
 
 
@@ -148,13 +167,32 @@ def _atom_datetime(dt: datetime) -> str:
 
 def _atom_entry(post: Post, site: SiteConfig) -> str:
     url = f"{site.url}/blog/{post.slug}"
+    summary = post.description or post.title
     return f"""  <entry>
     <title>{escape(post.title)}</title>
     <link href="{escape(url)}" rel="alternate"/>
     <id>{escape(url)}</id>
-    <updated>{_atom_datetime(post.date)}</updated>
-    <summary>{escape(post.description)}</summary>
+    <updated>{_atom_datetime(post.modified or post.date)}</updated>
+    <published>{_atom_datetime(post.date)}</published>
+    <summary type="html">{escape(summary)}</summary>
+    <author><name>{escape(site.author)}</name></author>
   </entry>"""
+
+
+@app.get("/robots.txt", response_class=Response)
+async def robots_txt():
+    return Response(
+        content=render_robots_txt(get_site()),
+        media_type="text/plain; charset=utf-8",
+    )
+
+
+@app.get("/sitemap.xml", response_class=Response)
+async def sitemap_xml():
+    return Response(
+        content=render_sitemap_xml(get_store()),
+        media_type="application/xml; charset=utf-8",
+    )
 
 
 @app.get("/custom.css", response_class=Response)

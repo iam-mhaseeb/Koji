@@ -68,6 +68,40 @@ draft: false
 
 Set `popular_slugs` in `site.yaml` to control the homepage “most popular” list, or mark posts with `popular: true`.
 
+## SEO
+
+Koji ships with built-in SEO:
+
+| Feature | URL / location |
+|---------|----------------|
+| Meta description, canonical, robots | Every page (auto) |
+| Open Graph + Twitter Cards | Every page (auto) |
+| JSON-LD (`WebSite`, `BlogPosting`, `WebPage`) | Every page (auto) |
+| Sitemap | `/sitemap.xml` |
+| Robots | `/robots.txt` |
+| Atom feed | `/atom.xml` |
+
+Configure in `content/site.yaml`:
+
+```yaml
+url: https://yourdomain.com          # required for canonical URLs
+tagline: Short site description      # homepage meta description
+og_image: https://yourdomain.com/og.png
+twitter_site: "@yourhandle"
+google_site_verification: "abc123"
+```
+
+Per-post frontmatter:
+
+```yaml
+description: Shown in search results and social previews
+image: /static/my-post.png           # og:image for this post
+noindex: true                        # hide from search engines
+modified: 2026-06-01                 # article:modified_time
+```
+
+Blog search (`/blog?q=`) is marked `noindex` to avoid duplicate-indexed URLs.
+
 ## Environment
 
 | Variable | Default | Description |

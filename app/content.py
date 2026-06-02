@@ -22,10 +22,19 @@ class Post:
     description: str = ""
     popular: bool = False
     draft: bool = False
+    image: str = ""
+    noindex: bool = False
+    canonical: str = ""
+    modified: datetime | None = None
 
     @property
     def iso_date(self) -> str:
         return self.date.strftime("%Y-%m-%d")
+
+    @property
+    def iso_modified(self) -> str:
+        dt = self.modified or self.date
+        return dt.strftime("%Y-%m-%d")
 
 
 @dataclass
@@ -34,6 +43,10 @@ class Page:
     title: str
     html: str
     raw_markdown: str = ""
+    description: str = ""
+    image: str = ""
+    noindex: bool = False
+    canonical: str = ""
 
 
 _md = markdown.Markdown(
@@ -133,6 +146,7 @@ class ContentStore:
         meta = doc.metadata or {}
         slug = meta.get("slug") or path.stem
         title = meta.get("title") or slug.replace("-", " ").title()
+        modified_raw = meta.get("modified") or meta.get("updated")
         return Post(
             slug=slug,
             title=title,
@@ -141,6 +155,10 @@ class ContentStore:
             description=str(meta.get("description") or ""),
             popular=bool(meta.get("popular", False)),
             draft=bool(meta.get("draft", False)),
+            image=str(meta.get("image") or ""),
+            noindex=bool(meta.get("noindex", False)),
+            canonical=str(meta.get("canonical") or ""),
+            modified=_parse_date(modified_raw) if modified_raw else None,
         )
 
     def _load_pages(self) -> dict[str, Page]:
@@ -160,5 +178,9 @@ class ContentStore:
                 title=title,
                 html=_render_md(doc.content),
                 raw_markdown=doc.content,
+                description=str(meta.get("description") or ""),
+                image=str(meta.get("image") or ""),
+                noindex=bool(meta.get("noindex", False)),
+                canonical=str(meta.get("canonical") or ""),
             )
         return pages
