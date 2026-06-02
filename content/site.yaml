@@ -7,6 +7,8 @@ url: http://localhost:8000
 social:
   - label: GitHub
     url: https://github.com/example
+  - label: LinkedIn
+    url: https://www.linkedin.com/in/example
   - label: Email
     url: mailto:hello@example.com
 locale: en

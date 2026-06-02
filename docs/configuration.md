@@ -38,6 +38,8 @@ nav:
 social:
   - label: GitHub
     url: https://github.com/yourname
+  - label: LinkedIn
+    url: https://www.linkedin.com/in/yourname
   - label: Email
     url: mailto:you@example.com
 
