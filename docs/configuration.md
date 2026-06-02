@@ -118,7 +118,7 @@ nav:
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `footer_subscribe` | `true` | Show “Subscribe via rss, email…” line |
+| `footer_subscribe` | `true` | Show “Subscribe via rss or say hello” line |
 | `powered_by` | `true` | Show “Powered by Koji” line (please leave on if you can) |
 | `koji_url` | GitHub URL | Link target for “Koji” in footer |
 
