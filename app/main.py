@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -16,10 +17,18 @@ from app.content import ContentStore, Post
 APP_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(APP_DIR / "templates"))
 
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    get_store()
+    yield
+
+
 app = FastAPI(
     title="Koji",
     description="Self-hostable portfolio + blog for developers",
     version=__version__,
+    lifespan=lifespan,
 )
 
 app.mount("/static", StaticFiles(directory=str(APP_DIR / "static")), name="static")
@@ -41,11 +50,6 @@ def get_site() -> SiteConfig:
     if _site is None:
         _site = load_site_config()
     return _site
-
-
-@app.on_event("startup")
-def startup() -> None:
-    get_store()
 
 
 def _ctx(**extra):
@@ -128,12 +132,18 @@ async def feed():
   <title>{escape(site.title)}</title>
   <link href="{escape(site.url)}/" rel="alternate"/>
   <link href="{escape(site.url)}/atom.xml" rel="self"/>
-  <updated>{updated.isoformat()}Z</updated>
+  <updated>{_atom_datetime(updated)}</updated>
   <id>{escape(site.url)}/</id>
   <author><name>{escape(site.author)}</name></author>
 {items_xml}
 </feed>"""
     return Response(content=xml, media_type="application/atom+xml; charset=utf-8")
+
+
+def _atom_datetime(dt: datetime) -> str:
+    if dt.tzinfo is None:
+        return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _atom_entry(post: Post, site: SiteConfig) -> str:
@@ -142,7 +152,7 @@ def _atom_entry(post: Post, site: SiteConfig) -> str:
     <title>{escape(post.title)}</title>
     <link href="{escape(url)}" rel="alternate"/>
     <id>{escape(url)}</id>
-    <updated>{post.date.isoformat()}Z</updated>
+    <updated>{_atom_datetime(post.date)}</updated>
     <summary>{escape(post.description)}</summary>
   </entry>"""
 
