@@ -69,12 +69,6 @@ panda_face: "( ◕ ᴥ ◕ )"
 panda_small: "( •ᴥ• )"
 ```
 
-Or remove the footer credit:
-
-```yaml
-powered_by: false
-```
-
 ## Dark mode
 
 Koji does not include dark mode by default. Add it in `custom.css`:
@@ -128,17 +122,19 @@ image: https://yourdomain.com/static/post-image.png
 
 Recommended size: **1200×630** px for Open Graph.
 
-## Hiding the Koji footer
+## Footer attribution
 
-```yaml
-powered_by: false
-```
+The **“Powered by Koji”** line cannot be turned off via `site.yaml`. It uses the class `koji-attribution`, and `koji-attribution.css` loads after `custom.css` so simple hide rules do not apply.
+
+Do not add CSS that hides `footer` or `.koji-attribution` — Koji logs an error on startup. See [Attribution](attribution.md).
 
 The subscribe line is separate:
 
 ```yaml
 footer_subscribe: false
 ```
+
+You cannot hide the Powered-by line via config; see [Attribution](attribution.md) for fork/hosted options.
 
 ## Advanced: replace default CSS entirely
 

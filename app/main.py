@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app import __version__
+from app.attribution import check_custom_css_file
 from app.config import SiteConfig, content_root, load_site_config
 from app.content import ContentStore, Post
 from app.llms import (
@@ -36,6 +37,7 @@ templates = Jinja2Templates(directory=str(APP_DIR / "templates"))
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
+    check_custom_css_file(content_root() / "custom.css")
     get_store()
     yield
 

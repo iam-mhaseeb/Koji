@@ -1,0 +1,16 @@
+/* Loaded after custom.css — keeps the Koji attribution visible. */
+footer .koji-attribution {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  font-size: 0.95rem !important;
+  line-height: 1.7 !important;
+}
+
+footer .koji-attribution a {
+  display: inline !important;
+  visibility: visible !important;
+}

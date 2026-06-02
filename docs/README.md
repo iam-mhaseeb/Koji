@@ -21,6 +21,7 @@ Welcome to Koji — a self-hostable portfolio and blog for developers. One insta
 | [llms.txt](llms-txt.md) | AI-friendly exports and overrides |
 | [Extending Koji](extending.md) | New routes, templates, content types, forks |
 | [Architecture](architecture.md) | How the app is structured (for contributors) |
+| [Attribution](attribution.md) | Footer “Powered by Koji” and enforcement limits |
 
 ## Quick reference
 

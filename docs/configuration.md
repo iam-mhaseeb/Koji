@@ -36,7 +36,6 @@ nav:
 
 # Footer
 footer_subscribe: true
-powered_by: true
 koji_url: https://github.com/your-org/koji
 
 # SEO
@@ -109,8 +108,9 @@ nav:
 | Key | Default | Description |
 |-----|---------|-------------|
 | `footer_subscribe` | `true` | Show “Subscribe via rss, email…” line |
-| `powered_by` | `true` | Show “Powered by Koji” line |
-| `koji_url` | GitHub URL | Link target for “Koji” in footer |
+| `koji_url` | GitHub URL | Link target for “Powered by Koji” in footer |
+
+The “Powered by Koji” line is **always shown** and cannot be disabled in `site.yaml`. See [Attribution](attribution.md).
 
 ### SEO
 
