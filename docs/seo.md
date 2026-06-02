@@ -46,8 +46,8 @@ In `content/pages/*.md`:
 
 ```yaml
 ---
-title: Now
-description: What I'm focused on in 2026 — projects, learning, and goals.
+title: Projects
+description: Open source tools, side projects, and past work.
 image: https://yourdomain.com/static/projects-og.png
 noindex: false
 ---

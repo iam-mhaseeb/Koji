@@ -50,7 +50,6 @@ class SiteConfig:
     author: str
     tagline: str = ""
     email: str = ""
-    location: str = ""
     social_links: list[SocialLink] = field(default_factory=list)
     recent_projects: list[RecentProject] = field(default_factory=list)
     url: str = "http://localhost:8000"
@@ -104,7 +103,6 @@ def load_site_config(root: Path | None = None) -> SiteConfig:
         author=data.get("author", "Developer"),
         tagline=data.get("tagline", ""),
         email=data.get("email", ""),
-        location=data.get("location", ""),
         social_links=_load_social_links(data.get("social") or []),
         recent_projects=_load_recent_projects(data.get("recent_projects") or []),
         url=data.get("url", "http://localhost:8000").rstrip("/"),

@@ -33,7 +33,7 @@ Pages live in `content/pages/`. Each file maps to a fixed route:
 
 ```yaml
 ---
-title: Projects          # Page <h1> and browser title
+title: Projects          # Page heading and browser title
 description: What this page is about.   # SEO meta description
 image: /static/projects-og.png          # Optional og:image for this page
 noindex: true                             # Optional: hide from search engines
@@ -47,6 +47,7 @@ The markdown **body** is rendered below the page title (except `home.md`, which 
 
 `home.md` powers the intro on `/`. Koji **automatically appends**:
 
+- “My recent projects” — from `recent_projects` in `site.yaml`
 - “My most recent posts” — from `recent_posts_count` in `site.yaml`
 - “My most popular posts” — from `popular_slugs` or `popular: true` posts
 

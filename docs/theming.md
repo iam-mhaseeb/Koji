@@ -31,12 +31,14 @@ main h2 {
 
 | Element | Behavior |
 |---------|----------|
-| `.container` | Centered column, `max-width: 37.5rem` (~600px) |
+| `.container` | Centered column, `max-width: 48rem` |
 | `body` | System sans-serif stack, black on white |
-| Links | Classic blue `rgb(0, 0, 238)` |
-| `header` | Site title + inline nav links |
+| Links | Blue `#1d4ed8` |
+| `.site-header` | Three-column grid: brand left, nav centered, social links right |
+| `main` | Section headings (`h2`) with horizontal rules; project lists with optional meta |
 | `footer` | Centered, subscribe + powered-by lines |
-| `.blog-posts` | Disc list for post links |
+| `.blog-posts` | Post links separated by horizontal rules |
+| `.project-list` | Homepage “recent projects” with title link + muted meta line |
 | `.highlight` | Light gray code block background |
 
 Inspect `app/static/style.css` for all selectors.
@@ -82,7 +84,7 @@ Koji does not include dark mode by default. Add it in `custom.css`:
   a {
     color: #6af;
   }
-  .title h1 a {
+  .site-brand {
     color: #eee;
   }
   main pre,

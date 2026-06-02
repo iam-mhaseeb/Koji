@@ -9,7 +9,6 @@ title: "Your Name's blog"
 author: Your Name
 tagline: Portfolio and essays about building software.
 email: you@example.com
-location: San Francisco
 url: https://yourdomain.com
 locale: en
 
@@ -19,6 +18,10 @@ panda_small: "( •ᴥ• )"
 
 # Homepage lists
 recent_posts_count: 5
+recent_projects:
+  - title: My App
+    meta: "2024 – Present · Side project"
+    url: /projects
 popular_slugs:
   - my-best-post
   - another-hit
@@ -31,6 +34,12 @@ nav:
     href: /projects
   - label: Blog
     href: /blog
+
+social:
+  - label: GitHub
+    url: https://github.com/yourname
+  - label: Email
+    url: mailto:you@example.com
 
 # Footer
 footer_subscribe: true
@@ -68,7 +77,6 @@ llms:
 | `author` | Yes | `Developer` | Author name in feeds and schema.org |
 | `tagline` | No | `""` | Short description; used for SEO and llms.txt |
 | `email` | No | `""` | Mailto links in footer |
-| `location` | No | `""` | Shown in the header (top right, muted) |
 | `url` | No | `http://localhost:8000` | **Canonical base URL** — must be production HTTPS URL when live |
 | `locale` | No | `en` | HTML `lang` attribute and `og:locale` |
 

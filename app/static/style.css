@@ -116,12 +116,6 @@ a:hover {
   text-decoration: underline;
 }
 
-.site-location {
-  font-size: 0.875rem;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
 /* —— Main (koji prose + torbet sections) —— */
 main {
   display: flex;
