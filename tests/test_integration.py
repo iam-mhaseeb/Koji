@@ -113,10 +113,10 @@ def test_footer_subscribe():
     r = client.get("/")
     assert "/atom.xml" in r.text
     assert "mailto:hello@example.com" in r.text
-    assert "Built with" in r.text
+    assert "Powered by" in r.text
     assert "Koji" in r.text
 
 
 def test_powered_by_defaults_on():
     r = client.get("/")
-    assert "Built with" in r.text
+    assert "Powered by" in r.text
