@@ -13,6 +13,7 @@ from fastapi.templating import Jinja2Templates
 from app import __version__
 from app.config import SiteConfig, content_root, load_site_config
 from app.content import ContentStore, Post
+from app.reload import refresh_content_if_changed
 from app.llms import (
     format_page_markdown,
     format_post_markdown,
@@ -51,21 +52,36 @@ app.mount("/static", StaticFiles(directory=str(APP_DIR / "static")), name="stati
 
 _store: ContentStore | None = None
 _site: SiteConfig | None = None
+_store_ref: list[ContentStore | None] = [_store]
+_site_ref: list[SiteConfig | None] = [_site]
+
+
+def _sync_refs() -> None:
+    global _store, _site
+    _store = _store_ref[0]
+    _site = _site_ref[0]
+
+
+@app.middleware("http")
+async def reload_content_on_change(request: Request, call_next):
+    refresh_content_if_changed(_store_ref, _site_ref)
+    _sync_refs()
+    return await call_next(request)
 
 
 def get_store() -> ContentStore:
-    global _store, _site
-    if _store is None:
-        _site = load_site_config()
-        _store = ContentStore(site=_site)
-    return _store
+    if _store_ref[0] is None:
+        _site_ref[0] = load_site_config()
+        _store_ref[0] = ContentStore(site=_site_ref[0])
+    _sync_refs()
+    return _store_ref[0]
 
 
 def get_site() -> SiteConfig:
-    global _site
-    if _site is None:
-        _site = load_site_config()
-    return _site
+    if _site_ref[0] is None:
+        _site_ref[0] = load_site_config()
+    _sync_refs()
+    return _site_ref[0]
 
 
 def _ctx(**extra):

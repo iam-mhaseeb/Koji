@@ -110,11 +110,11 @@ Key methods:
 
 | Data | Cached? | Invalidation |
 |------|---------|--------------|
-| `site.yaml` | Yes, at startup | Restart process |
-| Posts list | Yes, first access | `reload()` or restart |
-| Pages dict | Yes, first access | `reload()` or restart |
+| `site.yaml` | Yes | Dev: auto-reload on save; production: restart |
+| Posts list | Yes, first access | Dev: auto-reload on save; production: restart |
+| Pages dict | Yes, first access | Dev: auto-reload on save; production: restart |
 
-There is no file watcher. For local dev, `--reload` only reloads Python files, not markdown.
+In development, middleware in `app/reload.py` checks `content/` mtimes and calls `ContentStore.reload()` when files change. Set `KOJI_ENV=production` to skip this (Docker Compose sets it). Uvicorn `--reload` still only watches Python files.
 
 ## Template inheritance
 

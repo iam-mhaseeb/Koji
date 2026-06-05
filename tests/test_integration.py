@@ -129,3 +129,50 @@ def test_footer_subscribe():
 def test_powered_by_defaults_on():
     r = client.get("/")
     assert "Powered by" in r.text
+
+
+def test_content_reloads_when_markdown_changes(tmp_path, monkeypatch):
+    import time
+
+    import app.main as main
+    import app.reload as reload_mod
+
+    monkeypatch.setenv("KOJI_CONTENT_DIR", str(tmp_path))
+    monkeypatch.delenv("KOJI_ENV", raising=False)
+
+    tmp_path.joinpath("site.yaml").write_text(
+        "title: Test\nauthor: Dev\nnav: []\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "pages").mkdir()
+    (tmp_path / "pages" / "home.md").write_text(
+        "---\ntitle: Home\n---\n\nHi",
+        encoding="utf-8",
+    )
+    (tmp_path / "posts").mkdir()
+    post_path = tmp_path / "posts" / "test.md"
+    post_path.write_text(
+        "---\ntitle: Test Post\nslug: test\ndate: 2026-01-01\n---\n\nOriginal body",
+        encoding="utf-8",
+    )
+
+    main._store_ref[0] = None
+    main._site_ref[0] = None
+    reload_mod.reset_content_signature()
+    main._sync_refs()
+
+    try:
+        test_client = TestClient(main.app)
+        assert "Original body" in test_client.get("/blog/test").text
+
+        time.sleep(0.05)
+        post_path.write_text(
+            "---\ntitle: Test Post\nslug: test\ndate: 2026-01-01\n---\n\nUpdated body",
+            encoding="utf-8",
+        )
+        assert "Updated body" in test_client.get("/blog/test").text
+    finally:
+        main._store_ref[0] = None
+        main._site_ref[0] = None
+        reload_mod.reset_content_signature()
+        main._sync_refs()

@@ -154,6 +154,7 @@ See [llms.txt guide](llms-txt.md).
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `KOJI_CONTENT_DIR` | `./content` (relative to project root) | Absolute path to your content directory |
+| `KOJI_ENV` | *(unset)* | Set to `production` to cache content in memory; omit in local dev for live markdown reload |
 
 Useful for Docker and monorepos:
 

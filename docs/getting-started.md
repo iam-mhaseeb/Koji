@@ -30,7 +30,7 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
 Open [http://127.0.0.1:8000](http://127.0.0.1:8000). You should see the sample site (“Alex's blog”).
 
-The `--reload` flag restarts the server when **Python code** changes. After editing markdown in `content/`, refresh the browser. If you change `site.yaml`, restart the server (reload does not always pick up YAML changes reliably).
+The `--reload` flag restarts the server when **Python code** changes. In development (default), **markdown and `site.yaml`** reload when you save under `content/` — refresh the browser. Set `KOJI_ENV=production` in production to disable live reload and cache content in memory.
 
 ## 3. Make it yours
 
