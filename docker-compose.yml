@@ -5,6 +5,7 @@ services:
       - "8000:8000"
     environment:
       KOJI_CONTENT_DIR: /app/content
+      KOJI_ENV: production
     volumes:
       - ./content:/app/content:ro
     restart: unless-stopped

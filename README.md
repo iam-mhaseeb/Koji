@@ -21,6 +21,8 @@ uvicorn app.main:app --reload
 
 Open [http://localhost:8000](http://localhost:8000).
 
+In development, saving files under `content/` reloads markdown and `site.yaml` on the next request — refresh the browser. Set `KOJI_ENV=production` in production to cache content in memory.
+
 ```bash
 docker compose up --build   # or Docker
 pytest                      # after pip install -r requirements-dev.txt
