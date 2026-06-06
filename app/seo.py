@@ -226,10 +226,11 @@ def render_sitemap_xml(store: ContentStore) -> str:
     site = store.site
     urls: list[tuple[str, datetime | None, str]] = [
         (site.url + "/", None, "daily"),
-        (absolute_url(site, "/projects"), None, "monthly"),
-        (absolute_url(site, "/blog"), None, "weekly"),
     ]
-    for post in store.published_posts():
+    for page in store.indexable_static_pages():
+        urls.append((absolute_url(site, f"/{page.slug}"), None, "monthly"))
+    urls.append((absolute_url(site, "/blog"), None, "weekly"))
+    for post in store.indexable_posts():
         lastmod = post.modified or post.date
         if lastmod.year <= 1970:
             lastmod = None

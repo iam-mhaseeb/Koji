@@ -103,10 +103,22 @@ class ContentStore:
                 return p
         return None
 
-    def page(self, slug: str) -> Page | None:
+    def pages(self) -> dict[str, Page]:
         if self._pages is None:
             self._pages = self._load_pages()
-        return self._pages.get(slug)
+        return self._pages
+
+    def page(self, slug: str) -> Page | None:
+        return self.pages().get(slug)
+
+    def static_page_slugs(self) -> list[str]:
+        return sorted(slug for slug in self.pages() if slug != "home")
+
+    def indexable_static_pages(self) -> list[Page]:
+        return [self.pages()[slug] for slug in self.static_page_slugs() if not self.pages()[slug].noindex]
+
+    def indexable_posts(self) -> list[Post]:
+        return [p for p in self.published_posts() if not p.noindex]
 
     def recent_posts(self, limit: int | None = None) -> list[Post]:
         limit = limit or self.site.recent_posts_count

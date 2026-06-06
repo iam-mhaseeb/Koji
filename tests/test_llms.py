@@ -17,6 +17,7 @@ def test_llms_txt():
     assert "## Pages" in text
     assert "## Blog" in text
     assert "/index.md" in text
+    assert "/projects.md" in text
     assert "/blog/koji-manifesto.md" in text
     assert "/llms-full.txt" in text
 

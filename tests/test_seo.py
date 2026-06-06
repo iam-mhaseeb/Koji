@@ -20,6 +20,7 @@ def test_sitemap_xml():
     assert "application/xml" in r.headers["content-type"]
     assert "<urlset" in r.text
     assert "/blog/koji-manifesto" in r.text
+    assert "/projects" in r.text
     assert "http://localhost:8000/" in r.text
 
 
@@ -79,3 +80,88 @@ def test_projects_page_json_ld():
     r = client.get("/projects")
     assert '"@type": "WebPage"' in r.text or '"@type":"WebPage"' in r.text
     assert "Open source tools" in r.text
+
+
+def test_new_page_auto_seo(tmp_path, monkeypatch):
+    import app.main as main
+    import app.reload as reload_mod
+
+    monkeypatch.setenv("KOJI_CONTENT_DIR", str(tmp_path))
+    monkeypatch.delenv("KOJI_ENV", raising=False)
+
+    tmp_path.joinpath("site.yaml").write_text(
+        "title: Test Site\nauthor: Dev\nurl: https://example.com\nnav: []\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "pages").mkdir()
+    (tmp_path / "pages" / "home.md").write_text("---\ntitle: Home\n---\n\nHi", encoding="utf-8")
+    (tmp_path / "pages" / "about.md").write_text(
+        "---\ntitle: About\ndescription: About this site.\n---\n\nAbout body",
+        encoding="utf-8",
+    )
+    (tmp_path / "posts").mkdir()
+
+    main._store_ref[0] = None
+    main._site_ref[0] = None
+    reload_mod.reset_content_signature()
+    main._sync_refs()
+
+    try:
+        test_client = TestClient(main.app)
+        html = test_client.get("/about").text
+        assert html.count('rel="canonical"') == 1
+        assert "https://example.com/about" in html
+        assert 'property="og:title"' in html
+        assert "About this site." in html
+        assert '"@type": "WebPage"' in html or '"@type":"WebPage"' in html
+
+        sitemap = test_client.get("/sitemap.xml").text
+        assert "https://example.com/about" in sitemap
+
+        llms = test_client.get("/llms.txt").text
+        assert "/about.md" in llms
+
+        md = test_client.get("/about.md").text
+        assert "# About" in md
+        assert "About body" in md
+    finally:
+        main._store_ref[0] = None
+        main._site_ref[0] = None
+        reload_mod.reset_content_signature()
+        main._sync_refs()
+
+
+def test_noindex_page_excluded_from_sitemap(tmp_path, monkeypatch):
+    import app.main as main
+    import app.reload as reload_mod
+
+    monkeypatch.setenv("KOJI_CONTENT_DIR", str(tmp_path))
+    monkeypatch.delenv("KOJI_ENV", raising=False)
+
+    tmp_path.joinpath("site.yaml").write_text(
+        "title: Test Site\nauthor: Dev\nurl: https://example.com\nnav: []\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "pages").mkdir()
+    (tmp_path / "pages" / "home.md").write_text("---\ntitle: Home\n---\n\nHi", encoding="utf-8")
+    (tmp_path / "pages" / "secret.md").write_text(
+        "---\ntitle: Secret\nnoindex: true\n---\n\nHidden",
+        encoding="utf-8",
+    )
+    (tmp_path / "posts").mkdir()
+
+    main._store_ref[0] = None
+    main._site_ref[0] = None
+    reload_mod.reset_content_signature()
+    main._sync_refs()
+
+    try:
+        test_client = TestClient(main.app)
+        assert 'content="noindex, follow"' in test_client.get("/secret").text
+        assert "https://example.com/secret" not in test_client.get("/sitemap.xml").text
+        assert "/secret.md" in test_client.get("/llms.txt").text
+    finally:
+        main._store_ref[0] = None
+        main._site_ref[0] = None
+        reload_mod.reset_content_signature()
+        main._sync_refs()

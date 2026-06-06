@@ -106,21 +106,6 @@ async def home(request: Request):
     )
 
 
-@app.get("/projects", response_class=HTMLResponse)
-async def static_page(request: Request):
-    slug = request.url.path.strip("/")
-    store = get_store()
-    page = store.page(slug)
-    if not page:
-        raise HTTPException(status_code=404, detail="Page not found")
-    site = get_site()
-    return templates.TemplateResponse(
-        request,
-        "page.html",
-        _ctx(page=page, heading=page.title, seo=seo_for_page(site, page, f"/{slug}")),
-    )
-
-
 @app.get("/blog", response_class=HTMLResponse)
 async def blog_index(request: Request, q: str | None = None):
     store = get_store()
@@ -166,14 +151,6 @@ async def llms_full_txt():
 @app.get("/index.md", response_class=Response)
 async def home_markdown():
     page = get_store().page("home")
-    if not page:
-        raise HTTPException(status_code=404, detail="Page not found")
-    return Response(content=format_page_markdown(page), media_type=MARKDOWN_MEDIA)
-
-
-@app.get("/projects.md", response_class=Response)
-async def projects_markdown():
-    page = get_store().page("projects")
     if not page:
         raise HTTPException(status_code=404, detail="Page not found")
     return Response(content=format_page_markdown(page), media_type=MARKDOWN_MEDIA)
@@ -270,3 +247,25 @@ async def custom_css():
 @app.get("/health")
 async def health():
     return {"status": "ok", "version": __version__}
+
+
+@app.get("/{page_slug}.md", response_class=Response)
+async def page_markdown(page_slug: str):
+    page = get_store().page(page_slug)
+    if not page or page_slug == "home":
+        raise HTTPException(status_code=404, detail="Page not found")
+    return Response(content=format_page_markdown(page), media_type=MARKDOWN_MEDIA)
+
+
+@app.get("/{page_slug}", response_class=HTMLResponse)
+async def static_page(request: Request, page_slug: str):
+    store = get_store()
+    page = store.page(page_slug)
+    if not page or page_slug == "home":
+        raise HTTPException(status_code=404, detail="Page not found")
+    site = get_site()
+    return templates.TemplateResponse(
+        request,
+        "page.html",
+        _ctx(page=page, heading=page.title, seo=seo_for_page(site, page, f"/{page_slug}")),
+    )

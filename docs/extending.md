@@ -9,7 +9,7 @@ Koji is intentionally small. Most customization happens through **content** and 
 | Change colors, fonts, spacing | `content/custom.css` |
 | Change site name, nav, SEO | `content/site.yaml` |
 | New blog post | `content/posts/*.md` |
-| New static page at fixed URL | Add route + template + `content/pages/*.md` |
+| New static page at fixed URL | `content/pages/*.md` + nav link in `site.yaml` |
 | New dynamic section | New route in `app/main.py` + template |
 | Different homepage layout | Edit `app/templates/home.html` |
 | Fork and maintain | Clone repo, modify `app/` |
@@ -31,20 +31,7 @@ description: About me and this site.
 Your about page content.
 ```
 
-### 2. Register the route
-
-In `app/main.py`, add the path to the existing static page handler:
-
-```python
-@app.get("/about", response_class=HTMLResponse)
-@app.get("/about", response_class=HTMLResponse)
-@app.get("/projects", response_class=HTMLResponse)
-async def static_page(request: Request):
-    slug = request.url.path.strip("/")
-    ...
-```
-
-### 3. Add nav link
+### 2. Add nav link
 
 `content/site.yaml`:
 
@@ -57,29 +44,14 @@ nav:
   ...
 ```
 
-### 4. SEO and llms.txt
+### 3. SEO, sitemap, and llms.txt
 
-For full SEO, extend `seo_for_page` usage (already automatic once route exists).
+No code changes needed. Any `content/pages/{slug}.md` file (except `home.md`) is automatically:
 
-For llms.txt, update `app/llms.py` `render_llms_txt()` to include `about` in the pages loop:
-
-```python
-for slug, label in (("home", "Home"), ("projects", "Projects"), ("about", "About")):
-```
-
-Also add `.md` export:
-
-```python
-@app.get("/about.md", response_class=Response)
-async def about_markdown():
-    ...
-```
-
-And include `about` in `render_llms_full_txt()` page loop.
-
-### 5. Sitemap
-
-Add the URL in `app/seo.py` → `render_sitemap_xml()` if you want it in the sitemap (copy the pattern for `/projects`).
+- Served at `/{slug}` and `/{slug}.md`
+- Included in `/sitemap.xml` (unless `noindex: true` in frontmatter)
+- Listed in `/llms.txt` and `/llms-full.txt`
+- Given full meta tags and JSON-LD via `seo_for_page()`
 
 ## Adding a custom route
 
