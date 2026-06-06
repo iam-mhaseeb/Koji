@@ -47,12 +47,14 @@ def render_llms_txt(store: ContentStore) -> str:
         lines.append("")
 
     lines.append("## Pages")
-    for slug, label in (("home", "Home"), ("projects", "Projects")):
+    home = store.page("home")
+    if home:
+        lines.append(_link_line(home.title or "Home", _page_md_url(site, "home"), home.description or "Home"))
+    for slug in store.static_page_slugs():
         page = store.page(slug)
         if not page:
             continue
-        note = page.description or label
-        lines.append(_link_line(page.title or label, _page_md_url(site, slug), note))
+        lines.append(_link_line(page.title or slug, _page_md_url(site, slug), page.description or page.title))
     lines.append("")
 
     lines.append("## Blog")
@@ -91,7 +93,7 @@ def render_llms_full_txt(store: ContentStore) -> str:
         "",
     ]
 
-    for slug in ("home", "projects"):
+    for slug in ["home", *store.static_page_slugs()]:
         page = store.page(slug)
         if page:
             parts.extend(_format_section(page.title, page.raw_markdown))

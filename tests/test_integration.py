@@ -41,6 +41,13 @@ def test_projects_page():
     assert "Koji" in r.text
 
 
+def test_projects_markdown_export():
+    r = client.get("/projects.md")
+    assert r.status_code == 200
+    assert "text/markdown" in r.headers["content-type"]
+    assert "Projects" in r.text
+
+
 def test_blog_index():
     r = client.get("/blog")
     assert r.status_code == 200
