@@ -5,9 +5,9 @@ description: Open source tools, side projects, and past work by Alex Developer.
 
 ### Koji
 
-*2024 – Present · Self-hostable portfolio + blog*
+*2024 – Present · Self-hostable, dead-simple personal website for developers*
 
-A no-nonsense blogging platform for developers. Markdown on disk, FastAPI, no database.
+Markdown on disk, FastAPI, no database.
 
 ---
 
