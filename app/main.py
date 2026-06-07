@@ -43,7 +43,7 @@ async def lifespan(_app: FastAPI):
 
 app = FastAPI(
     title="Koji",
-    description="Self-hostable portfolio + blog for developers",
+    description="Self-hostable, dead-simple personal website for developers",
     version=__version__,
     lifespan=lifespan,
 )

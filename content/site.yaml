@@ -30,7 +30,7 @@ llms:
   optional:
     - name: Koji on GitHub
       url: https://github.com/heykoji/koji
-      note: Self-hostable portfolio and blog engine
+      note: Self-hostable, dead-simple personal website for developers
 
 panda_face: "( ◕ ᴥ ◕ )"
 panda_small: "( •ᴥ• )"
@@ -39,7 +39,7 @@ recent_posts_count: 5
 
 recent_projects:
   - title: Koji
-    meta: "2024 – Present · Self-hostable portfolio + blog"
+    meta: "2024 – Present · Self-hostable, dead-simple personal website for developers"
     url: /projects
   - title: Devlog CLI
     meta: "Side project · Terminal publishing"
