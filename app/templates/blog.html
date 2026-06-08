@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block main %}
+<h2 class="page-heading">Blog</h2>
+<hr class="page-divider" />
+
+<div class="search-box">
+  <label class="sr-only" for="post-search">Search posts</label>
+  <input
+    type="search"
+    id="post-search"
+    name="q"
+    placeholder="Search posts…"
+    value="{{ query }}"
+    hx-get="/blog/partials/posts"
+    hx-trigger="keyup changed delay:200ms, search"
+    hx-target="#post-list"
+    hx-include="#post-search"
+  />
+</div>
+
+<ul id="post-list" class="blog-posts">
+  {% include "partials/post_list.html" %}
+</ul>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js" crossorigin="anonymous"></script>
+{% endblock %}

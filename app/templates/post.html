@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block main %}
+<article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+  <h1 itemprop="headline">{{ post.title }}</h1>
+  {% if post.date.year > 1970 %}
+  <p class="post-meta">
+    <time datetime="{{ post.iso_date }}" itemprop="datePublished">{{ post.date.strftime("%B %d, %Y") }}</time>
+    {% if post.modified and post.modified.date() != post.date.date() %}
+    · <time datetime="{{ post.iso_modified }}" itemprop="dateModified">Updated {{ post.modified.strftime("%B %d, %Y") }}</time>
+    {% endif %}
+  </p>
+  {% endif %}
+  <div itemprop="articleBody">
+    {{ post.html | safe }}
+  </div>
+</article>
+<p class="post-back"><a href="/blog">← Back to blog</a></p>
+{% endblock %}

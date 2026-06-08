@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="{{ site.locale }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% if seo %}
+    {% include "partials/seo_head.html" %}
+    {% else %}
+    <title>{% block title %}{{ site.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ site.tagline }}{% endblock %}" />
+    {% endif %}
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }} feed" href="/atom.xml" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <link rel="alternate" type="text/markdown" title="LLM site map" href="/llms.txt" />
+    <link rel="stylesheet" href="/static/style.css" />
+    {% if site.has_custom_css %}<link rel="stylesheet" href="/custom.css" />{% endif %}
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <div class="container">
+      <header class="site-header">
+        <a class="site-brand" href="/">
+          <span class="mascot" aria-hidden="true">{{ site.panda_face }}</span>{{ site.title }}
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          {% for item in site.nav %}
+          <a href="{{ item.href }}">{{ item.label }}</a>
+          {% endfor %}
+        </nav>
+        <div class="site-header-end">
+          {% if site.social_links %}
+          <div class="site-social" aria-label="Social links">
+            {% for link in site.social_links %}
+            <a href="{{ link.url }}"{% if link.url.startswith('http') %} rel="noopener noreferrer"{% endif %}>{{ link.label }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </header>
+
+      <main id="main-content">
+        {% block main %}{% endblock %}
+      </main>
+
+      <footer class="site-footer">
+        {% if site.footer_subscribe %}
+        <p>
+          Subscribe via
+          <a href="/atom.xml">rss</a>
+          or
+          <a href="{% if site.email %}mailto:{{ site.email }}{% else %}#{% endif %}">say hello</a>.
+        </p>
+        {% endif %}
+        {% if site.powered_by %}
+        <p>
+          Powered by
+          <a href="{{ site.koji_url }}">Koji {{ site.panda_small }}</a>
+        </p>
+        {% endif %}
+      </footer>
+    </div>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,12 @@
+services:
+  koji:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      KOJI_CONTENT_DIR: /app/content
+      KOJI_ENV: production
+      PORT: 8000
+    volumes:
+      - ./content:/app/content:ro
+    restart: unless-stopped

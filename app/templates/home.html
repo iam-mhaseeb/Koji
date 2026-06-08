@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block main %}
+{% if page %}
+{{ page.html | safe }}
+{% endif %}
+
+{% if recent_projects %}
+<h2 class="section-heading">My recent projects</h2>
+<hr class="section-rule" />
+<ul class="project-list">
+  {% for project in recent_projects %}
+  <li>
+    <a href="{{ project.url }}">{{ project.title }}</a>
+    {% if project.meta %}<span class="project-meta">{{ project.meta }}</span>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if recent %}
+<h2 class="section-heading">My most recent posts</h2>
+<hr class="section-rule" />
+<ul class="blog-posts">
+  {% for post in recent %}
+  <li><a href="/blog/{{ post.slug }}">{{ post.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if popular %}
+<h2 class="section-heading">My most popular posts</h2>
+<hr class="section-rule" />
+<ul class="blog-posts">
+  {% for post in popular %}
+  <li><a href="/blog/{{ post.slug }}">{{ post.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

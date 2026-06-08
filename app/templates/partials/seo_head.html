@@ -1,0 +1,47 @@
+{# SEO meta tags, Open Graph, Twitter Cards, and JSON-LD #}
+<title>{{ seo.title }}</title>
+<meta name="description" content="{{ seo.description }}" />
+<meta name="robots" content="{{ seo.robots }}" />
+<link rel="canonical" href="{{ seo.canonical_url }}" />
+
+<meta property="og:site_name" content="{{ site.title }}" />
+<meta property="og:title" content="{{ seo.title }}" />
+<meta property="og:description" content="{{ seo.description }}" />
+<meta property="og:url" content="{{ seo.canonical_url }}" />
+<meta property="og:type" content="{{ seo.og_type }}" />
+<meta property="og:locale" content="{{ site.locale | replace('-', '_') }}" />
+{% if seo.og_image %}
+<meta property="og:image" content="{{ seo.og_image }}" />
+<meta property="og:image:alt" content="{{ seo.title }}" />
+{% endif %}
+{% if seo.og_type == 'article' and seo.published %}
+<meta property="article:published_time" content="{{ seo.published.strftime('%Y-%m-%d') }}" />
+{% endif %}
+{% if seo.og_type == 'article' and seo.modified %}
+<meta property="article:modified_time" content="{{ seo.modified.strftime('%Y-%m-%d') }}" />
+{% endif %}
+{% if seo.article_author %}
+<meta property="article:author" content="{{ seo.article_author }}" />
+{% endif %}
+
+<meta name="twitter:card" content="{% if seo.og_image %}summary_large_image{% else %}summary{% endif %}" />
+<meta name="twitter:title" content="{{ seo.title }}" />
+<meta name="twitter:description" content="{{ seo.description }}" />
+{% if site.twitter_site %}<meta name="twitter:site" content="{{ site.twitter_site }}" />{% endif %}
+{% if site.twitter_creator %}<meta name="twitter:creator" content="{{ site.twitter_creator }}" />{% endif %}
+{% if seo.og_image %}<meta name="twitter:image" content="{{ seo.og_image }}" />{% endif %}
+
+<meta name="author" content="{{ site.author }}" />
+{% if site.theme_color %}<meta name="theme-color" content="{{ site.theme_color }}" />{% endif %}
+{% if site.google_site_verification %}
+<meta name="google-site-verification" content="{{ site.google_site_verification }}" />
+{% endif %}
+{% if site.bing_site_verification %}
+<meta name="msvalidate.01" content="{{ site.bing_site_verification }}" />
+{% endif %}
+{% if site.author_url %}<link rel="author" href="{{ site.author_url }}" />{% endif %}
+{% if site.email %}<link rel="me" href="mailto:{{ site.email }}" />{% endif %}
+
+{% for schema in seo.json_ld %}
+<script type="application/ld+json">{{ schema | tojson }}</script>
+{% endfor %}

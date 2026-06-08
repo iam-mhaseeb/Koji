@@ -1,0 +1,533 @@
+/* Koji — dead-simple personal website + torbet.co-inspired layout rhythm */
+
+:root {
+  --text: #111;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --link: #1d4ed8;
+  --max: 48rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: #fff;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+/* —— Header: brand left, nav center, social right —— */
+.site-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.site-nav {
+  justify-self: center;
+}
+
+.site-brand {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.site-brand:hover {
+  text-decoration: none;
+  color: var(--link);
+}
+
+.site-brand .mascot {
+  margin-right: 0.25rem;
+}
+
+.site-header-end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  justify-self: end;
+  gap: 1rem 1.25rem;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.site-nav a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  text-decoration: underline;
+}
+
+.site-social {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.site-social a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-social a:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+/* —— Main (koji prose + torbet sections) —— */
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+main h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.section-heading,
+main h2.section-heading {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.page-heading {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+main h2:not(.section-heading) {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+main hr,
+hr.section-rule,
+hr.page-divider {
+  width: 100%;
+  height: 0;
+  margin: 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+main h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Subtitle line after h3: *2024 – Present · role* */
+main h3 + p > em:only-child,
+main h3 + p em:first-child {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-style: normal;
+}
+
+main h3 + p:has(em:only-child) {
+  margin-top: 0.2rem;
+  margin-bottom: 0.35rem;
+}
+
+/* Static pages (e.g. projects): tight project blocks separated by hr */
+.page-content h3 {
+  margin: 0.85rem 0 0;
+}
+
+.page-content > h3:first-child {
+  margin-top: 0;
+}
+
+.page-content hr + h2,
+.page-content hr + h3 {
+  margin-top: 0;
+}
+
+.page-content h3 + p + p {
+  margin: 0;
+}
+
+.page-content h2 {
+  margin: 1rem 0 0.5rem;
+}
+
+.page-content hr {
+  margin: 0.85rem 0;
+}
+
+.page-content ul,
+.page-content ol {
+  margin: 0 0 0.5rem;
+}
+
+main p {
+  margin: 0 0 1rem;
+}
+
+main p:last-child {
+  margin-bottom: 0;
+}
+
+main ul,
+main ol {
+  margin: 0 0 1rem;
+  padding-left: 1.35rem;
+}
+
+main li {
+  margin-bottom: 0.35rem;
+}
+
+main li p {
+  margin: 0;
+}
+
+main strong {
+  font-weight: 600;
+}
+
+main img {
+  max-width: 100%;
+  height: auto;
+}
+
+main blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+}
+
+/* —— Code: inline + fenced blocks (Pygments / CodeHilite) —— */
+main code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
+  font-size: 0.875em;
+}
+
+main p code,
+main li code,
+main td code {
+  background: #f3f4f6;
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.85em;
+  word-break: break-word;
+}
+
+.highlight {
+  margin: 1.1rem 0;
+  background: #f6f8fa;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.highlight pre {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.highlight code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  border: none;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Pygments token colors (GitHub-inspired, class-based) */
+.highlight .c,
+.highlight .ch,
+.highlight .cm,
+.highlight .cpf {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.highlight .cp {
+  color: #6a737d;
+}
+
+.highlight .k,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt,
+.highlight .ow {
+  color: #d73a49;
+}
+
+.highlight .s,
+.highlight .s1,
+.highlight .s2,
+.highlight .sa,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx {
+  color: #032f62;
+}
+
+.highlight .m,
+.highlight .mb,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .mo,
+.highlight .il {
+  color: #005cc5;
+}
+
+.highlight .nf,
+.highlight .fm {
+  color: #6f42c1;
+}
+
+.highlight .nc {
+  color: #6f42c1;
+  font-weight: 600;
+}
+
+.highlight .na,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi,
+.highlight .vm {
+  color: #005cc5;
+}
+
+.highlight .nt {
+  color: #22863a;
+}
+
+.highlight .nn,
+.highlight .nx {
+  color: #6f42c1;
+}
+
+.highlight .no,
+.highlight .bp {
+  color: #005cc5;
+}
+
+.highlight .o {
+  color: #d73a49;
+}
+
+.highlight .w {
+  color: #bbb;
+}
+
+.highlight .err {
+  color: #b31d28;
+}
+
+.highlight .gd {
+  color: #b31d28;
+  background: #ffeef0;
+}
+
+.highlight .gi {
+  color: #22863a;
+  background: #f0fff4;
+}
+
+.blog-posts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.blog-posts li {
+  margin: 0;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.blog-posts li:last-child {
+  border-bottom: none;
+}
+
+.blog-posts a {
+  font-weight: 500;
+  color: var(--link);
+}
+
+.project-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.project-list li {
+  margin: 0;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.project-list li:last-child {
+  border-bottom: none;
+}
+
+.project-list a {
+  font-weight: 500;
+  color: var(--link);
+}
+
+.project-meta {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.post-meta {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+}
+
+.post-back {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.search-box {
+  margin: 0;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  font: inherit;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.search-box input:focus {
+  outline: 2px solid var(--link);
+  outline-offset: 1px;
+}
+
+/* —— Footer (koji) —— */
+.site-footer {
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+.site-footer p {
+  margin: 0 0 0.4rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 1.25rem 1rem 2.5rem;
+  }
+
+  .site-header {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .site-nav {
+    justify-self: start;
+  }
+
+  .site-header-end {
+    justify-self: start;
+    justify-content: flex-start;
+  }
+}
