@@ -1,6 +1,6 @@
 # Koji `( ◕ ᴥ ◕ )`
 
-**Koji** is a self-hostable dead simple personal website for developers. One instance per site, no database, markdown on disk, and a fast, text-first minimalist layout.
+**Koji** is a self-hostable dead simple personal website for developers. No database, markdown on disk, and a fast, text-first minimalist layout.
 
 ## Features
 

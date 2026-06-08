@@ -1,6 +1,6 @@
 # Koji documentation
 
-Welcome to Koji — a self-hostable, dead-simple personal website for developers. One instance per site, markdown on disk, no database.
+Welcome to Koji — a self-hostable, dead-simple personal website for developers. Markdown on disk, no database.
 
 ## Who this is for
 
