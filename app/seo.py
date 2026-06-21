@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime
 from xml.sax.saxutils import escape
 
@@ -84,6 +83,54 @@ def _person_schema(site: SiteConfig) -> dict:
     return person
 
 
+def _website_part(site: SiteConfig) -> dict:
+    return {"@type": "WebSite", "name": site.title, "url": site.url}
+
+
+def _webpage_schema(name: str, description: str, url: str, site: SiteConfig) -> dict:
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": name,
+        "description": description,
+        "url": url,
+        "isPartOf": _website_part(site),
+    }
+
+
+def _breadcrumb_schema(site: SiteConfig, crumbs: list[tuple[str, str]]) -> dict:
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": index,
+                "name": name,
+                "item": crumb_url,
+            }
+            for index, (name, crumb_url) in enumerate(crumbs, start=1)
+        ],
+    }
+
+
+def _parse_json_ld_meta(value) -> list[dict]:
+    if not value:
+        return []
+    if isinstance(value, dict):
+        return [value]
+    if isinstance(value, list):
+        return [item for item in value if isinstance(item, dict)]
+    return []
+
+
+def _merge_json_ld(*groups: list[dict]) -> list[dict]:
+    merged: list[dict] = []
+    for group in groups:
+        merged.extend(group)
+    return merged
+
+
 def _website_schema(site: SiteConfig) -> dict:
     schema: dict = {
         "@context": "https://schema.org",
@@ -91,10 +138,54 @@ def _website_schema(site: SiteConfig) -> dict:
         "name": site.title,
         "url": site.url,
         "description": site.tagline or site.title,
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": absolute_url(site, "/blog?q={search_term_string}"),
+            },
+            "query-input": "required name=search_term_string",
+        },
     }
     if site.author:
         schema["author"] = _person_schema(site)
     return schema
+
+
+def complete_seo_meta(seo: SeoMeta, site: SiteConfig) -> SeoMeta:
+    """Fill in JSON-LD when a route passes SeoMeta without structured data."""
+    if seo.json_ld:
+        return seo
+
+    if seo.og_type == "article" and seo.published:
+        schema: dict = {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": seo.title,
+            "description": seo.description,
+            "url": seo.canonical_url,
+            "mainEntityOfPage": {"@type": "WebPage", "@id": seo.canonical_url},
+            "author": _person_schema(site),
+            "publisher": {"@type": "Organization", "name": site.title, "url": site.url},
+            "datePublished": _schema_date(seo.published),
+        }
+        if seo.modified and seo.modified.year > 1970:
+            schema["dateModified"] = _schema_date(seo.modified)
+        if seo.og_image:
+            schema["image"] = [seo.og_image]
+        return replace(seo, json_ld=[schema])
+
+    page_name = seo.title.split(" — ", 1)[0]
+    return replace(
+        seo,
+        json_ld=[
+            _webpage_schema(page_name, seo.description, seo.canonical_url, site),
+            _breadcrumb_schema(
+                site,
+                [(site.title, site.url + "/"), (page_name, seo.canonical_url)],
+            ),
+        ],
+    )
 
 
 def seo_for_home(site: SiteConfig, page: Page | None) -> SeoMeta:
@@ -130,40 +221,61 @@ def seo_for_page(site: SiteConfig, page: Page, path: str) -> SeoMeta:
         og_type="website",
         og_image=resolve_image(site, page.image),
         robots="noindex, follow" if page.noindex else site.robots,
-        json_ld=[
-            {
-                "@context": "https://schema.org",
-                "@type": "WebPage",
-                "name": heading,
-                "description": desc,
-                "url": url,
-                "isPartOf": {"@type": "WebSite", "name": site.title, "url": site.url},
-            }
-        ],
+        json_ld=_merge_json_ld(
+            [
+                _webpage_schema(heading, desc, url, site),
+                _breadcrumb_schema(
+                    site,
+                    [(site.title, site.url + "/"), (heading, url)],
+                ),
+            ],
+            page.json_ld,
+        ),
     )
 
 
-def seo_for_blog_index(site: SiteConfig, query: str = "") -> SeoMeta:
+def seo_for_blog_index(
+    site: SiteConfig,
+    query: str = "",
+    posts: list[Post] | None = None,
+) -> SeoMeta:
     desc = truncate_description(
         f"All posts from {site.author}. {site.tagline}".strip()
     )
+    blog_url = absolute_url(site, "/blog")
     robots = "noindex, follow" if query.strip() else site.robots
+    schema: dict = {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": f"{site.title} Blog",
+        "url": blog_url,
+        "description": desc,
+        "author": _person_schema(site),
+    }
+    if posts and not query.strip():
+        schema["blogPost"] = [
+            {
+                "@type": "BlogPosting",
+                "headline": post.title,
+                "url": absolute_url(site, f"/blog/{post.slug}"),
+                "datePublished": _schema_date(post.date),
+            }
+            for post in posts
+            if post.date.year > 1970
+        ]
     return SeoMeta(
         title=_title("Blog", site),
         description=desc,
-        canonical_url=absolute_url(site, "/blog"),
+        canonical_url=blog_url,
         og_type="website",
         og_image=site.og_image,
         robots=robots,
         json_ld=[
-            {
-                "@context": "https://schema.org",
-                "@type": "Blog",
-                "name": f"{site.title} Blog",
-                "url": absolute_url(site, "/blog"),
-                "description": desc,
-                "author": _person_schema(site),
-            }
+            schema,
+            _breadcrumb_schema(
+                site,
+                [(site.title, site.url + "/"), ("Blog", blog_url)],
+            ),
         ],
     )
 
@@ -196,7 +308,20 @@ def seo_for_post(site: SiteConfig, post: Post) -> SeoMeta:
         og_type="article",
         og_image=image,
         robots="noindex, follow" if post.noindex else site.robots,
-        json_ld=[schema],
+        json_ld=_merge_json_ld(
+            [
+                schema,
+                _breadcrumb_schema(
+                    site,
+                    [
+                        (site.title, site.url + "/"),
+                        ("Blog", absolute_url(site, "/blog")),
+                        (post.title, url),
+                    ],
+                ),
+            ],
+            post.json_ld,
+        ),
         published=post.date if post.date.year > 1970 else None,
         modified=modified if modified.year > 1970 else None,
         article_author=site.author,

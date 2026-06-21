@@ -88,7 +88,8 @@ Key methods:
 ### `app/seo.py`
 
 - **`SeoMeta`:** title, description, canonical, OG, robots, JSON-LD list
-- **`seo_for_*`:** builders per page type
+- **`seo_for_*`:** builders per page type (WebSite, WebPage, Blog, BlogPosting, BreadcrumbList)
+- **`complete_seo_meta`:** fills JSON-LD when custom routes omit it
 - **`render_sitemap_xml(store)`**
 - **`render_robots_txt(site)`**
 - **`absolute_url(site, path)`**

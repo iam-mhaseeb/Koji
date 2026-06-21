@@ -21,6 +21,7 @@ from app.llms import (
     render_llms_txt,
 )
 from app.seo import (
+    complete_seo_meta,
     render_robots_txt,
     render_sitemap_xml,
     seo_for_blog_index,
@@ -85,7 +86,11 @@ def get_site() -> SiteConfig:
 
 
 def _ctx(**extra):
-    return {"site": get_site(), **extra}
+    site = get_site()
+    seo = extra.get("seo")
+    if seo is not None:
+        extra = {**extra, "seo": complete_seo_meta(seo, site)}
+    return {"site": site, **extra}
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -114,7 +119,7 @@ async def blog_index(request: Request, q: str | None = None):
     return templates.TemplateResponse(
         request,
         "blog.html",
-        _ctx(posts=posts, query=q or "", seo=seo_for_blog_index(site, q or "")),
+        _ctx(posts=posts, query=q or "", seo=seo_for_blog_index(site, q or "", posts)),
     )
 
 
