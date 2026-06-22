@@ -91,7 +91,7 @@ seo = SeoMeta(
 )
 ```
 
-Pass `seo=seo` in template context.
+Pass `seo=seo` in template context. JSON-LD (`WebPage` + `BreadcrumbList`) is generated automatically when `json_ld` is omitted.
 
 ## Custom templates
 

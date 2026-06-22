@@ -116,6 +116,40 @@ noindex: false
 
 Posts include `datePublished`, `dateModified` (when set), `author`, and `headline`.
 
+Blog posts and static pages also include a `BreadcrumbList` schema. The blog index lists published posts in the `blogPost` property. The home page `WebSite` schema includes a `SearchAction` for `/blog?q=…`.
+
+### Custom JSON-LD from frontmatter
+
+Add extra schema objects in page or post frontmatter. They are merged after the auto-generated schemas:
+
+```yaml
+---
+title: About
+description: About me.
+json_ld:
+  - "@type": AboutPage
+    name: About me
+---
+```
+
+Useful for specialized schema types (`AboutPage`, `FAQPage`, `SoftwareApplication`, etc.) without writing Python.
+
+### Automatic JSON-LD for custom routes
+
+If you build a `SeoMeta` without `json_ld`, Koji fills in `WebPage` and `BreadcrumbList` automatically when you pass it through `_ctx(seo=...)`:
+
+```python
+from app.seo import SeoMeta, absolute_url
+
+seo = SeoMeta(
+    title="My custom page",
+    description="...",
+    canonical_url=absolute_url(site, "/custom"),
+)
+```
+
+For article-style pages, set `og_type="article"` and `published` / `modified` to get `BlogPosting` JSON-LD.
+
 Blog posts use `og:type` **article** with `article:published_time`, `article:modified_time` (when set), and `article:author`.
 
 ### Home page description

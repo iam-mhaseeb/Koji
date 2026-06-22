@@ -38,6 +38,9 @@ description: What this page is about.   # SEO meta description
 image: /static/projects-og.png          # Optional og:image for this page
 noindex: true                             # Optional: hide from search engines
 canonical: https://other.com/projects     # Optional: override canonical URL
+json_ld:                                  # Optional: extra schema.org objects
+  - "@type": AboutPage
+    name: About me
 ---
 ```
 
@@ -73,6 +76,9 @@ image: https://yourdomain.com/img.png   # og:image for this post
 modified: 2026-06-15        # Optional: article:modified_time
 noindex: true               # Optional: exclude from search indexing
 canonical: https://...      # Optional: canonical URL override
+json_ld:                    # Optional: extra schema.org objects (merged with auto-generated JSON-LD)
+  - "@type": TechArticle
+    proficiencyLevel: Expert
 ---
 ```
 

@@ -79,7 +79,107 @@ def test_llms_and_feed_links_in_head():
 def test_projects_page_json_ld():
     r = client.get("/projects")
     assert '"@type": "WebPage"' in r.text or '"@type":"WebPage"' in r.text
+    assert '"@type": "BreadcrumbList"' in r.text or '"@type":"BreadcrumbList"' in r.text
     assert "Open source tools" in r.text
+
+
+def test_blog_index_json_ld_includes_posts():
+    r = client.get("/blog")
+    assert '"@type": "Blog"' in r.text or '"@type":"Blog"' in r.text
+    assert '"@type": "BlogPosting"' in r.text or '"@type":"BlogPosting"' in r.text
+    assert "koji-manifesto" in r.text
+
+
+def test_home_json_ld_includes_search_action():
+    r = client.get("/")
+    assert "SearchAction" in r.text
+    assert "search_term_string" in r.text
+
+
+def test_custom_seo_meta_gets_automatic_json_ld(tmp_path, monkeypatch):
+    import app.main as main
+    import app.reload as reload_mod
+    from app.seo import SeoMeta, absolute_url, complete_seo_meta
+
+    monkeypatch.setenv("KOJI_CONTENT_DIR", str(tmp_path))
+    monkeypatch.delenv("KOJI_ENV", raising=False)
+
+    tmp_path.joinpath("site.yaml").write_text(
+        "title: Test Site\nauthor: Dev\nurl: https://example.com\nnav: []\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "pages").mkdir()
+    (tmp_path / "pages" / "home.md").write_text("---\ntitle: Home\n---\n\nHi", encoding="utf-8")
+    (tmp_path / "posts").mkdir()
+
+    main._store_ref[0] = None
+    main._site_ref[0] = None
+    reload_mod.reset_content_signature()
+    main._sync_refs()
+
+    try:
+        site = main.get_site()
+        seo = complete_seo_meta(
+            SeoMeta(
+                title="Custom page",
+                description="A custom route.",
+                canonical_url=absolute_url(site, "/custom"),
+            ),
+            site,
+        )
+        assert seo.json_ld
+        assert seo.json_ld[0]["@type"] == "WebPage"
+        assert seo.json_ld[1]["@type"] == "BreadcrumbList"
+    finally:
+        main._store_ref[0] = None
+        main._site_ref[0] = None
+        reload_mod.reset_content_signature()
+        main._sync_refs()
+
+
+def test_frontmatter_json_ld_merged(tmp_path, monkeypatch):
+    import app.main as main
+    import app.reload as reload_mod
+
+    monkeypatch.setenv("KOJI_CONTENT_DIR", str(tmp_path))
+    monkeypatch.delenv("KOJI_ENV", raising=False)
+
+    tmp_path.joinpath("site.yaml").write_text(
+        "title: Test Site\nauthor: Dev\nurl: https://example.com\nnav: []\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "pages").mkdir()
+    (tmp_path / "pages" / "home.md").write_text("---\ntitle: Home\n---\n\nHi", encoding="utf-8")
+    (tmp_path / "pages" / "about.md").write_text(
+        """---
+title: About
+description: About this site.
+json_ld:
+  - "@type": AboutPage
+    name: About me
+---
+About body
+""",
+        encoding="utf-8",
+    )
+    (tmp_path / "posts").mkdir()
+
+    main._store_ref[0] = None
+    main._site_ref[0] = None
+    reload_mod.reset_content_signature()
+    main._sync_refs()
+
+    try:
+        test_client = TestClient(main.app)
+        html = test_client.get("/about").text
+        assert '"@type": "WebPage"' in html or '"@type":"WebPage"' in html
+        assert '"@type": "AboutPage"' in html or '"@type":"AboutPage"' in html
+        assert "About me" in html
+    finally:
+        main._store_ref[0] = None
+        main._site_ref[0] = None
+        reload_mod.reset_content_signature()
+        main._sync_refs()
 
 
 def test_new_page_auto_seo(tmp_path, monkeypatch):

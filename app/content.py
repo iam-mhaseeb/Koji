@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
@@ -27,6 +27,7 @@ class Post:
     canonical: str = ""
     modified: datetime | None = None
     raw_markdown: str = ""
+    json_ld: list[dict] = field(default_factory=list)
 
     @property
     def iso_date(self) -> str:
@@ -48,6 +49,7 @@ class Page:
     image: str = ""
     noindex: bool = False
     canonical: str = ""
+    json_ld: list[dict] = field(default_factory=list)
 
 
 _md = markdown.Markdown(
@@ -76,6 +78,16 @@ def _parse_date(value) -> datetime:
     if value is None:
         return datetime.min
     return datetime.fromisoformat(str(value).replace("Z", "+00:00").split("T")[0])
+
+
+def _parse_json_ld_meta(value) -> list[dict]:
+    if not value:
+        return []
+    if isinstance(value, dict):
+        return [value]
+    if isinstance(value, list):
+        return [item for item in value if isinstance(item, dict)]
+    return []
 
 
 class ContentStore:
@@ -177,6 +189,7 @@ class ContentStore:
             canonical=str(meta.get("canonical") or ""),
             modified=_parse_date(modified_raw) if modified_raw else None,
             raw_markdown=doc.content,
+            json_ld=_parse_json_ld_meta(meta.get("json_ld")),
         )
 
     def _load_pages(self) -> dict[str, Page]:
@@ -200,5 +213,6 @@ class ContentStore:
                 image=str(meta.get("image") or ""),
                 noindex=bool(meta.get("noindex", False)),
                 canonical=str(meta.get("canonical") or ""),
+                json_ld=_parse_json_ld_meta(meta.get("json_ld")),
             )
         return pages
