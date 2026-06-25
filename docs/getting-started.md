@@ -108,14 +108,42 @@ Visit `/blog/hello-world`. It also appears under “My most recent posts” on t
 
 For a full example with syntax-highlighted code blocks, see the sample post at `/blog/sharing-code-in-posts`.
 
+### Add a static page
+
+Create `content/pages/about.md`:
+
+```markdown
+---
+title: About
+description: About me and this site.
+---
+
+Your about page content.
+```
+
+Visit `/about` immediately — no Python changes. The page is also added to `/sitemap.xml` and `/llms.txt` automatically.
+
+To show it in the site header, add a nav entry in `content/site.yaml` (optional — the URL works either way):
+
+```yaml
+nav:
+  - label: About
+    href: /about
+```
+
+See [Extending Koji](extending.md) for the full static-page workflow.
+
 ## 4. Understand the default pages
 
 | File | URL | Purpose |
 |------|-----|---------|
 | `content/pages/home.md` | `/` | Intro + recent projects and post lists |
 | `content/pages/projects.md` | `/projects` | Projects and work |
+| `content/pages/{slug}.md` | `/{slug}` | Any other page you add (automatic) |
 
-You can rewrite these entirely. Keep the filenames unless you [extend routes](extending.md).
+You can rewrite the default pages entirely. To add more pages, create new `*.md` files in `content/pages/` — routes, SEO, sitemap, and llms exports are automatic.
+
+`home.md` is special: it maps to `/` only (not `/home`) and uses a different template. Keep that filename for the homepage unless you [fork and change routes](extending.md).
 
 ## 5. Run tests (optional)
 

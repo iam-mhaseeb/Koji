@@ -68,7 +68,7 @@ sequenceDiagram
 
 ### `app/content.py`
 
-- **`ContentStore`:** loads and caches pages and posts
+- **`ContentStore`:** loads and caches pages and posts by globbing `content/pages/*.md` and `content/posts/*.md` — new files are picked up automatically (no per-page route registration)
 - **`Post` / `Page`:** dataclasses with rendered HTML and raw markdown
 - **Markdown:** Python-Markdown with fenced code, codehilite, tables
 - **Frontmatter:** `python-frontmatter` parses YAML headers

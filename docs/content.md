@@ -22,12 +22,14 @@ The **filename** of a post (e.g. `2026-06-01-my-post.md`) is only used as a fall
 
 ## Pages
 
-Pages live in `content/pages/`. Each file maps to a fixed route:
+Pages live in `content/pages/`. Koji **automatically** loads every `*.md` file in that folder and serves it — no Python or route registration required.
 
 | File | Route |
 |------|-------|
 | `home.md` | `/` (body only; lists are automatic) |
-| `projects.md` | `/projects` |
+| `{slug}.md` | `/{slug}` (e.g. `projects.md` → `/projects`, `about.md` → `/about`) |
+
+New pages are live as soon as the file exists. They are also included in `/sitemap.xml` and `/llms.txt` unless `noindex: true` is set in frontmatter. Add a `nav` entry in `site.yaml` only if you want a header link.
 
 ### Page frontmatter
 
@@ -60,7 +62,7 @@ You don't write those lists in markdown; they're generated.
 
 ## Blog posts
 
-Posts live in `content/posts/*.md`.
+Posts live in `content/posts/*.md`. Each file is **automatically** available at `/blog/{slug}` — no Python changes required. Slug comes from frontmatter `slug`, or the filename without `.md`.
 
 ### Post frontmatter
 

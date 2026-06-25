@@ -1,16 +1,26 @@
 # Extending Koji
 
-Koji is intentionally small. Most customization happens through **content** and **CSS**. When you need new behavior, you extend the FastAPI app and templates.
+Koji is intentionally small. Most customization happens through **content** and **CSS** — new posts and static pages are picked up automatically from `content/posts/` and `content/pages/` with no Python changes. When you need new behavior (custom URL patterns, new content types, alternate templates), you extend the FastAPI app and templates.
 
-## Extension strategies (pick the lightest that works)
+## Content-only changes (no Python)
+
+These work by adding or editing files under `content/`:
+
+| Goal | What to do |
+|------|------------|
+| New blog post | Add `content/posts/*.md` → live at `/blog/{slug}` |
+| New static page | Add `content/pages/{slug}.md` → live at `/{slug}` |
+| Show page in header nav | Add optional `nav` entry in `content/site.yaml` |
+| Change colors, fonts, spacing | `content/custom.css` |
+| Change site name, SEO defaults | `content/site.yaml` |
+
+Routes, meta tags, sitemap entries, and llms exports for new pages and posts are automatic.
+
+## When you need code changes
 
 | Goal | Approach |
 |------|----------|
-| Change colors, fonts, spacing | `content/custom.css` |
-| Change site name, nav, SEO | `content/site.yaml` |
-| New blog post | `content/posts/*.md` |
-| New static page at fixed URL | `content/pages/*.md` + nav link in `site.yaml` |
-| New dynamic section | New route in `app/main.py` + template |
+| New dynamic section (e.g. `/tags/{tag}`) | New route in `app/main.py` + template |
 | Different homepage layout | Edit `app/templates/home.html` |
 | Fork and maintain | Clone repo, modify `app/` |
 
@@ -31,7 +41,9 @@ description: About me and this site.
 Your about page content.
 ```
 
-### 2. Add nav link
+### 2. Add nav link (optional)
+
+The page is already live at `/about`. Add a header link only if you want it in the navigation:
 
 `content/site.yaml`:
 
@@ -46,7 +58,7 @@ nav:
 
 ### 3. SEO, sitemap, and llms.txt
 
-No code changes needed. Any `content/pages/{slug}.md` file (except `home.md`) is automatically:
+No further steps needed. Any `content/pages/{slug}.md` file (except `home.md`) is automatically:
 
 - Served at `/{slug}` and `/{slug}.md`
 - Included in `/sitemap.xml` (unless `noindex: true` in frontmatter)
@@ -119,13 +131,9 @@ Every page receives at least:
 
 ## Reloading content in development
 
-`ContentStore` caches posts and pages in memory. After bulk edits:
+In development (default), Koji watches `content/` and reloads markdown and `site.yaml` on the next request — just refresh the browser.
 
-```python
-get_store().reload()  # call from a debug route or restart uvicorn
-```
-
-For production, restarting the process is simplest.
+`ContentStore` caches posts and pages in memory. After bulk edits in production, restart the process (or call `get_store().reload()` from a debug route during development).
 
 ## Adding markdown extensions
 
