@@ -19,13 +19,15 @@ Welcome to Koji — a self-hostable, dead-simple personal website for developers
 | [Deployment](deployment.md) | Docker, production, reverse proxy, env vars |
 | [SEO](seo.md) | Meta tags, sitemap, structured data, launch checklist |
 | [llms.txt](llms-txt.md) | AI-friendly exports and overrides |
-| [Extending Koji](extending.md) | New routes, templates, content types, forks |
+| [Extending Koji](extending.md) | Custom routes, templates, content types, forks |
 | [Architecture](architecture.md) | How the app is structured (for contributors) |
 | [Powered by Koji](attribution.md) | Optional footer credit (please leave on if you can) |
 
 ## Quick reference
 
 ### Content layout
+
+New pages and posts are **picked up automatically** from these folders — no Python or route changes.
 
 ```
 content/
@@ -35,9 +37,9 @@ content/
 ├── llms-full.txt      # Optional full markdown export
 ├── pages/
 │   ├── home.md        # /
-│   └── projects.md    # /projects
+│   └── projects.md    # /projects  (any other *.md → /{filename})
 └── posts/
-    └── my-post.md     # /blog/my-post
+    └── my-post.md     # /blog/my-post  (any *.md → /blog/{slug})
 ```
 
 ### Common commands
@@ -60,7 +62,7 @@ docker compose up --build
 | URL | Type |
 |-----|------|
 | `/` | Home |
-| `/projects` | Static pages |
+| `/{page-slug}` (e.g. `/projects`) | Static pages from `content/pages/*.md` |
 | `/blog`, `/blog/{slug}` | Blog |
 | `/atom.xml`, `/rss.xml`, `/feed.xml` | Atom feed |
 | `/sitemap.xml` | Sitemap |

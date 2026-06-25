@@ -46,7 +46,7 @@ Full guides for using and extending Koji:
 | [Deployment](docs/deployment.md) | Docker, production, HTTPS |
 | [SEO](docs/seo.md) | Search and social previews |
 | [llms.txt](docs/llms-txt.md) | AI assistant exports |
-| [Extending Koji](docs/extending.md) | New pages, routes, forks |
+| [Extending Koji](docs/extending.md) | Custom routes, templates, forks |
 | [Architecture](docs/architecture.md) | Code structure for developers |
 
 ## Customize in 60 seconds
@@ -60,7 +60,12 @@ email: you@example.com
 url: https://yourdomain.com
 ```
 
-Add a post at `content/posts/hello.md`:
+Add content by dropping markdown files — no Python or route changes:
+
+- **Post** → `content/posts/hello.md` → `/blog/hello`
+- **Page** → `content/pages/about.md` → `/about`
+
+Example post (`content/posts/hello.md`):
 
 ```yaml
 ---
